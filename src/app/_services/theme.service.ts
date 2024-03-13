@@ -9,8 +9,7 @@ import {MaterialColorService} from '@/_services/material-color.service';
 export class ThemeService {
   readonly currTheme: any = {};
 
-  constructor(public ds: DataService,
-              public ms: MaterialColorService) {
+  constructor(public ms: MaterialColorService) {
     window.addEventListener('resize', this.onResize);
     this.onResize();
   }
