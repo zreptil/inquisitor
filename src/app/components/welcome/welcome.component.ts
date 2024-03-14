@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {GlobalsService} from '@/_services/globals.service';
 import {SyncService} from '@/_services/sync/sync.service';
+import {CloseButtonData} from '@/controls/close-button/close-button-data';
+import {Observable, of} from 'rxjs';
 
 @Component({
   selector: 'app-welcome',
@@ -8,6 +10,13 @@ import {SyncService} from '@/_services/sync/sync.service';
   styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent {
+  closeData: CloseButtonData = {
+    colorKey: 'welcome',
+    closeAction: (): Observable<boolean> => {
+      return of(true);
+    }
+  }
+
   constructor(public globals: GlobalsService,
               public sync: SyncService) {
 

@@ -14,16 +14,16 @@
           <mat-icon>sync_disabled</mat-icon>
         </ng-container>
         <ng-container *ngIf="sync.hasSync">
-          <img alt="dropbox" src="assets/images/dropbox.png">
+          <img alt="dropbox" src="../../../assets/images/dropbox.png">
         </ng-container>
       </button>
-      <button (click)="globals.currentPage='news'" id="news" mat-icon-button>
+      <button (click)="onClick('whatsnew')" id="whatsnew" mat-icon-button>
         <mat-icon>info_outline</mat-icon>
       </button>
-      <button (click)="globals.currentPage='impressum'" id="impressum" mat-icon-button>
+      <button (click)="onClick('impressum')" id="impressum" mat-icon-button>
         <mat-icon>account_balance</mat-icon>
       </button>
-      <button (click)="globals.currentPage='welcome'" id="welcome" mat-icon-button>
+      <button (click)="onClick('welcome')" id="welcome" mat-icon-button>
         <mat-icon>school</mat-icon>
       </button>
     </div>

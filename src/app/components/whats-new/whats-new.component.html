@@ -2,11 +2,7 @@
      cdkDragRootElement=".dialog-box.whatsnew">
   <div cdkDragHandle mat-dialog-title>
     <h1 i18n="title of whatsnew">Once upon a time...</h1>
-    <div>
-      <button mat-dialog-close="ok" mat-icon-button>
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
+    <app-close-button [data]="closeData"></app-close-button>
   </div>
   <mat-dialog-content>
     <h2 (click)="click(10.0)">

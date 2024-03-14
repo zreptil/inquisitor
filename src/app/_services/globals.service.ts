@@ -8,6 +8,9 @@ import {LangData} from '@/_model/lang-data';
 import {SyncService} from '@/_services/sync/sync.service';
 import {LanguageService} from '@/_services/language.service';
 import {EnvironmentService} from '@/_services/environment.service';
+import {MessageService} from '@/_services/message.service';
+import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
+import {WelcomeComponent} from '@/components/welcome/welcome.component';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -26,32 +29,65 @@ export class GlobalsService {
   skipStorageClear = false;
   debugFlag = 'debug';
   debugActive = 'yes';
+  isConfigured = false;
+  dragPos: any = {};
+  themeChanged = false;
+  editColors = true;
   appMode = 'standard';
   editPart: string;
   maxLogEntries = 20;
   storageVersion: string;
   currentPage: string;
   language: LangData;
-  theme: string;
   _syncType: oauth2SyncType;
   oauth2AccessToken: string = null;
+  ownTheme: any;
+  themeList: any = {
+    null: GlobalsService.msgThemeAuto,
+    standard: GlobalsService.msgThemeStandard,
+    xmas: GlobalsService.msgThemeXmas,
+    own: GlobalsService.msgThemeOwn,
+  }
   private flags = '';
 
   constructor(public http: HttpClient,
               public sync: SyncService,
               public ls: LanguageService,
+              public ms: MessageService,
               public env: EnvironmentService) {
     GLOBALS = this;
     this.loadWebData();
     this.loadSharedData().then(_ => {
       if (Utils.isEmpty(this.storageVersion)) {
-        this.currentPage = 'welcome';
+        this.ms.showPopup(WelcomeComponent, 'welcome', {});
       } else if (this.storageVersion !== this.version) {
-        this.currentPage = 'news';
+        this.ms.showPopup(WhatsNewComponent, 'whatsnew', {});
       } else {
         this.currentPage = 'main';
       }
     });
+  }
+
+  static _msgThemeOwn = $localize`:theme selection - own|:Eigenes`;
+
+  static get msgThemeOwn(): string {
+    return GlobalsService._msgThemeOwn;
+  }
+
+  static set msgThemeOwn(value: string) {
+    GlobalsService._msgThemeOwn = value;
+  }
+
+  static get msgThemeAuto(): string {
+    return $localize`:theme selection - automatic|:Automatisch`;
+  }
+
+  static get msgThemeStandard(): string {
+    return $localize`:theme selection - standard|:Standard`;
+  }
+
+  static get msgThemeXmas(): string {
+    return $localize`:theme selection - christmas|:Weihnachten`;
   }
 
   _isDebug = false;
@@ -95,6 +131,42 @@ export class GlobalsService {
 
   get appTitle(): string {
     return document.querySelector('head>title').innerHTML;
+  }
+
+  get themeName(): string {
+    return this.themeList[this._theme];
+  }
+
+  _theme: string;
+
+  get theme(): string {
+    let ret = this.baseThemeName(this._theme);
+    if (ret === 'own') {
+      return GlobalsService.msgThemeOwn;
+    }
+    return ret;
+  }
+
+  set theme(value: string) {
+    if (this.themeList[value] != null) {
+      this._theme = value;
+    } else {
+      this._theme = 'own';
+      GlobalsService.msgThemeOwn = value;
+    }
+  }
+
+  get themeKey(): string {
+    if (Utils.isEmpty(this._theme)) {
+      const ret = this.baseThemeName(this._theme);
+      if (!Utils.isEmpty(ret)) {
+        return ret;
+      }
+    }
+    if (this.themeList[this._theme] != null) {
+      return this._theme;
+    }
+    return 'own';
   }
 
   async loadSharedData() {
@@ -158,9 +230,6 @@ export class GlobalsService {
     localStorage.setItem('webData', JSON.stringify(storage));
   }
 
-  private may(key: string): boolean {
-    return this.flags.indexOf(`|${key}|`) >= 0;
-  }
   async requestJson(url: string, params?: { method?: string, options?: any, body?: any, showError?: boolean, asJson?: boolean, timeout?: number }) {
     return this.request(url, params).then(response => {
       return response?.body;
@@ -202,5 +271,20 @@ export class GlobalsService {
       }
     }
     return params.asJson ? response.body : response;
+  }
+
+  baseThemeName(name: string): string {
+    if (Utils.isEmpty(name)) {
+      if (Utils.now.getMonth() === 11) {
+        return 'xmas';
+      } else {
+        return 'standard';
+      }
+    }
+    return name;
+  }
+
+  private may(key: string): boolean {
+    return this.flags.indexOf(`|${key}|`) >= 0;
   }
 }

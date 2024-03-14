@@ -1,14 +1,12 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 import {DialogComponent} from '@/components/dialog/dialog.component';
 import {ColorPickerComponent} from '@/controls/color-picker/color-picker.component';
-import {ColorPickerDialog} from '@/controls/color-picker/color-picker-dialog';
 import {ColorPickerImageComponent} from '@/controls/color-picker/color-picker-image/color-picker-image.component';
 import {ColorPickerMixerComponent} from '@/controls/color-picker/color-picker-mixer/color-picker-mixer.component';
 import {ColorPickerBaseComponent} from '@/controls/color-picker/color-picker-base.component';
-import {ColorPickerRGBComponent} from '@/controls/color-picker/color-picker-rgb/color-picker-rgb.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {MainComponent} from '@/components/main/main.component';
 import {FormsModule} from '@angular/forms';
@@ -20,6 +18,12 @@ import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {ImpressumComponent} from '@/components/impressum/impressum.component';
 import {ProgressComponent} from '@/components/progress/progress.component';
 import {AutofocusDirective} from '@/_directives/autofocus.directive';
+import {ColorPickerDialog} from '@/controls/color-picker/color-picker-dialog/color-picker-dialog';
+import {ColorCfgComponent} from '@/controls/color-cfg/color-cfg.component';
+import {ColorCfgDialogComponent} from '@/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component';
+import {CloseButtonComponent} from '@/controls/close-button/close-button.component';
+import {ColorPickerSliderComponent} from '@/controls/color-picker/color-picker-slider/color-picker-slider.component';
+import {ColorPickerHslComponent} from '@/controls/color-picker/color-picker-hsl/color-picker-hsl.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,11 @@ import {AutofocusDirective} from '@/_directives/autofocus.directive';
     ColorPickerImageComponent,
     ColorPickerMixerComponent,
     ColorPickerBaseComponent,
-    ColorPickerRGBComponent,
+    ColorPickerSliderComponent,
+    ColorPickerHslComponent,
+    ColorCfgComponent,
+    ColorCfgDialogComponent,
+    CloseButtonComponent,
     WhatsNewComponent,
     MainComponent,
     WelcomeComponent,
@@ -49,4 +57,5 @@ import {AutofocusDirective} from '@/_directives/autofocus.directive';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

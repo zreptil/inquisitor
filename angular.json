@@ -44,7 +44,8 @@
           "defaultConfiguration": "production",
           "options": {
             "allowedCommonJsDependencies": [
-              "fast-sha256"
+              "fast-sha256",
+              "jszip"
             ],
             "assets": [
               "src/favicon.ico",

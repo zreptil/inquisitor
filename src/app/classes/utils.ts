@@ -1,6 +1,10 @@
 import {Log} from '@/_services/log.service';
 
 export class Utils {
+  static get now(): Date {
+    return new Date();
+  }
+
   static replace(text: string, src: string | string[], dst: string | string[]): string {
     if (!Array.isArray(src) && !Array.isArray(dst)) {
       src = [src];
@@ -401,5 +405,15 @@ export class Utils {
    */
   static camelToKebab(value: string): string {
     return value.replace(/(.+?)([A-Z])/g, (s, ...args) => `${args[0]}-${args[1].toLowerCase()}`);
+  }
+
+  static limit(value: number, min: number, max: number): number {
+    while (value < min) {
+      value += (max - min);
+    }
+    while (value > max) {
+      value -= (max - min);
+    }
+    return value;
   }
 }

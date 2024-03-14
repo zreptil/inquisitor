@@ -3,18 +3,6 @@ import {ColorPickerBaseComponent} from '@/controls/color-picker/color-picker-bas
 import {ColorData} from '@/_model/color-data';
 import {ColorUtils} from '@/controls/color-picker/color-utils';
 
-//https://github.com/google/material-design-icons/blob/master/font/MaterialIcons-Regular.ttf?raw=true
-//https://github.com/google/material-design-icons/blob/master/font/MaterialIconsOutlined-Regular.otf?raw=true
-//https://github.com/google/material-design-icons/blob/master/font/MaterialIconsRound-Regular.otf?raw=true
-//https://github.com/google/material-design-icons/blob/master/font/MaterialIconsSharp-Regular.otf?raw=true
-//https://github.com/google/material-design-icons/blob/master/font/MaterialIconsTwoTone-Regular.otf?raw=true
-//https://github.com/google/material-design-icons/blob/master/font/MaterialIcons-Regular.ttf?raw=true
-
-//https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsSharp%5BFILL,GRAD,opsz,wght%5D.ttf?raw=true
-//https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsOutlined%5BFILL,GRAD,opsz,wght%5D.ttf?raw=true
-//https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsRounded%5BFILL,GRAD,opsz,wght%5D.ttf?raw=true
-//https://github.com/google/material-design-icons/blob/master/variablefont/MaterialSymbolsSharp%5BFILL,GRAD,opsz,wght%5D.ttf?raw=true
-
 @Component({
   selector: 'app-color-picker-mixer',
   templateUrl: './color-picker-mixer.component.html',
@@ -41,8 +29,7 @@ export class ColorPickerMixerComponent extends ColorPickerBaseComponent implemen
     {color: new ColorData([255, 0, 255])}
   ];
   paintSize = 1;
-  colorWheelX = -1000;
-  colorWheelY = -1000;
+  colorWheelXY: any = {display: 'none'};
   colorWheelPos = 'tl';
   colorWheelAnim: string;
 
@@ -51,10 +38,7 @@ export class ColorPickerMixerComponent extends ColorPickerBaseComponent implemen
   }
 
   get styleForColorWheel(): any {
-    const ret = {
-      left: `calc(${this.colorWheelX}px - var(--size) / 2)`,
-      top: `calc(${this.colorWheelY}px - var(--size) / 2)`
-    };
+    const ret = this.colorWheelXY;
     if (this.colorWheelAnim != null) {
       (ret as any)['animation-name'] = this.colorWheelAnim;
     }
@@ -108,19 +92,9 @@ export class ColorPickerMixerComponent extends ColorPickerBaseComponent implemen
 
   mousePos(event: MouseEvent): any {
     const ret = {
-      x: event.clientX,
-      y: event.clientY
+      x: event.offsetX,
+      y: event.offsetY
     };
-    // the position of the mousecurser has to be calculated
-    // depending on the parents, since there are stacked
-    // elements with different positional attributes
-    let parent = this.canvas.parentElement;
-    for (let i = 2; i > 0; i--) {
-      ret.x -= parent.offsetLeft;
-      ret.y -= parent.offsetTop;
-      parent = parent.parentElement;
-    }
-
     ret.x = Math.floor(ret.x / this.paintSize) * this.paintSize;
     ret.y = Math.floor(ret.y / this.paintSize) * this.paintSize;
 
@@ -135,13 +109,14 @@ export class ColorPickerMixerComponent extends ColorPickerBaseComponent implemen
   clickCanvas(event: MouseEvent) {
     const m = this.mousePos(event);
     const color = this.getColorAtPos(m.x, m.y);
+    // console.log(this.data.mixColors.tl, this.data.mixColors.tr, this.data.mixColors.bl, this.data.mixColors.br);
+    // console.log(color, m.x, m.y, this.width, this.height);
     if (this.colorList.length < 9) {
       this.colorList.splice(0, 0, {color: color});
     } else {
       this.colorList[0].color = color;
     }
-    this.colorWheelX = -1000;
-    this.colorClick?.emit(color);
+    this.colorWheelXY = {display: 'none'};
   }
 
   mixValue(v1: number, v2: number): number {
@@ -212,24 +187,19 @@ export class ColorPickerMixerComponent extends ColorPickerBaseComponent implemen
   }
 
   clickSelectTrigger(pos: string) {
-    const p = this.mousePos({clientX: 0, clientY: 0} as MouseEvent);
     this.colorWheelPos = pos;
     switch (pos) {
       case 'tl':
-        this.colorWheelX = -p.x;
-        this.colorWheelY = -p.y;
+        this.colorWheelXY = {top: 0, left: 0};
         break;
       case 'tr':
-        this.colorWheelX = -p.x + this.width;
-        this.colorWheelY = -p.y;
+        this.colorWheelXY = {top: 0, right: 0};
         break;
       case 'br':
-        this.colorWheelX = -p.x + this.width;
-        this.colorWheelY = -p.y + this.height;
+        this.colorWheelXY = {bottom: 0, right: 0};
         break;
       case 'bl':
-        this.colorWheelX = -p.x;
-        this.colorWheelY = -p.y + this.height;
+        this.colorWheelXY = {bottom: 0, left: 0};
         break;
     }
     this.colorWheelAnim = 'open';
