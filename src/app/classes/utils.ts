@@ -337,6 +337,14 @@ export class Utils {
     return ret;
   }
 
+  static cvtMultilineText(text: string): string {
+    if (text != null) {
+      text = text.replace(/\n/g, 'µ') ?? '';
+      text = text.replace(/µµ/g, '<br><br>');
+      text = text.replace(/µ/g, ' ');
+    }
+    return text;
+  }
   static decodeBase64(src: string, failRet: string = null): string {
     let ret;
     // atob alleine reicht an dieser Stelle nicht, weil dadurch Umlaute nicht korrekt
@@ -405,6 +413,25 @@ export class Utils {
    */
   static camelToKebab(value: string): string {
     return value.replace(/(.+?)([A-Z])/g, (s, ...args) => `${args[0]}-${args[1].toLowerCase()}`);
+  }
+
+  static wordify(text: string, maxchars: number): string[] {
+    const ret: string[] = [];
+    text = Utils.cvtMultilineText(text);
+    const words = text.split(' ');
+    let line = '';
+    let diff = '';
+    for (const word of words) {
+      if (line.length + word.length > maxchars) {
+        ret.push(line);
+        line = word;
+      } else {
+        line += diff + word;
+        diff = ' ';
+      }
+    }
+    ret.push(line);
+    return ret;
   }
 
   static limit(value: number, min: number, max: number): number {

@@ -1,25 +1,26 @@
-::ng-deep .dialog-box.whatsnew {
-  min-width: 80vw;
+:host {
+  --headBack: var(--whatsnewHeadBack);
+  --headFore: var(--whatsnewHeadFore);
+  --bodyBack: var(--whatsnewBodyBack);
+  --bodyFore: var(--whatsnewBodyFore);
+  --accentBack: var(--whatsnewHeadBack);
+  --accentFore: var(--whatsnewHeadFore);
 }
 
-[mat-dialog-title] {
-  background-color: var(--whatsnewHeaderBack);
-  color: var(--whatsnewHeaderFore);
+::ng-deep .dialog-box.whatsnew {
+  min-width: 80vw;
 }
 
 div[header] {
   display: flex;
   flex-flow: row;
-  color: var(--whatsnewHeaderFore);
   justify-content: space-between;
   align-items: center;
 }
 
-mat-dialog-content {
+[mat-dialog-content] {
   padding: 1em;
   font-size: 1.2em;
-  background-color: var(--whatsnewBodyBack);
-  color: var(--whatsnewBodyFore);
 }
 
 h2 {
@@ -49,6 +50,22 @@ li {
   margin-left: 0;
   padding-left: 2.0em;
   position: relative;
+  text-align: justify;
+
+  div[row] {
+    display: flex;
+    flex-flow: row;
+    align-items: flex-start;
+  }
+
+  mat-icon {
+    --v: 24px;
+    font-size: 1em;
+    height: var(--v);
+    width: var(--v);
+    min-width: var(--v);
+    margin-top: 4px;
+  }
 }
 
 li:not(first-child) {
@@ -88,7 +105,7 @@ li:before {
 a, a:visited, a:active {
   text-decoration: none;
   cursor: pointer;
-  color: var(--whatsnewLink);
+  color: var(--whatsnewBodyLink);
 }
 
 .hidden {

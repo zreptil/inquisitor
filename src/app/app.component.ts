@@ -4,6 +4,7 @@ import {StorageService} from '@/_services/storage.service';
 import {EnvironmentService} from '@/_services/environment.service';
 import {GLOBALS} from '@/_services/globals.service';
 import {LogService} from '@/_services/log.service';
+import {ThemeService} from '@/_services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -14,14 +15,17 @@ export class AppComponent {
   constructor(ss: StorageService,
               cr: ChangeDetectorRef,
               sync: SyncService,
+              ts: ThemeService,
               public env: EnvironmentService) {
     LogService.cr = cr;
-    sync.onSetCredentialsToStorage = (value, isRefreshing) => {
+    sync.onSetCredentialsToStorage = (value, _isRefreshing) => {
       GLOBALS.oauth2AccessToken = value;
       GLOBALS.saveWebData();
     };
     sync.onGetCredentialsFromStorage = (): string => {
       GLOBALS.loadWebData();
+      ts.setTheme(GLOBALS.theme, false, false);
+      ts.restoreTheme();
       return GLOBALS.oauth2AccessToken;
     };
     sync.init();

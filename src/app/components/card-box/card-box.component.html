@@ -1,0 +1,15 @@
+<div cardview>
+  <button *ngIf="hasPrevCard" mat-button nav>
+    <mat-icon>arrow_left</mat-icon>
+  </button>
+
+  <app-card [cardIdx]="cardIdx"></app-card>
+
+  <button (click)="addCard()" *ngIf="currentCard==null" extended mat-fab>
+    <mat-icon>add</mat-icon>
+    New Card
+  </button>
+  <button *ngIf="hasNextCard" mat-button nav>
+    <mat-icon>arrow_right</mat-icon>
+  </button>
+</div>

@@ -1,5 +1,5 @@
 import {AfterViewInit, Component} from '@angular/core';
-import {GLOBALS} from '@/_services/globals.service';
+import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {CloseButtonData} from '@/controls/close-button/close-button-data';
 import {Observable, of} from 'rxjs';
 
@@ -19,7 +19,7 @@ export class WhatsNewComponent implements AfterViewInit {
     }
   }
 
-  constructor() {
+  constructor(public globals: GlobalsService) {
   }
 
   get originUrl(): string {

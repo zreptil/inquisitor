@@ -4,6 +4,7 @@ export class CardData extends BaseData {
   type: string;
   question: string;
   answer: string;
+  categories: string[] = [];
 
   override get asJson(): any {
     return {
@@ -14,17 +15,12 @@ export class CardData extends BaseData {
     };
   }
 
-  private _categories: string[] = [];
-
-  public get categories(): string[] {
-    return this._categories;
-  }
-
   override _fillFromJson(json: any, def?: any): void {
+    console.log(json);
     this.type = json.t;
-    this.question = json.q ?? '!';
-    this.answer = json.a ?? '?';
-    this._categories = json.c ?? [];
+    this.question = json.q;
+    this.answer = json.a;
+    this.categories = json.c ?? [];
   }
 
   hasCategory(value: string): boolean {

@@ -5,6 +5,7 @@ import {MessageService} from '@/_services/message.service';
 import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {ImpressumComponent} from '@/components/impressum/impressum.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
+import {CloseButtonData} from '@/controls/close-button/close-button-data';
 
 @Component({
   selector: 'app-main',
@@ -12,6 +13,11 @@ import {WelcomeComponent} from '@/components/welcome/welcome.component';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
+  closeData: CloseButtonData = {
+    colorKey: 'main',
+    showClose: false
+  };
+
   constructor(public globals: GlobalsService,
               public ms: MessageService,
               public sync: SyncService) {

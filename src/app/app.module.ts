@@ -24,6 +24,8 @@ import {ColorCfgDialogComponent} from '@/controls/color-cfg/color-cfg-dialog/col
 import {CloseButtonComponent} from '@/controls/close-button/close-button.component';
 import {ColorPickerSliderComponent} from '@/controls/color-picker/color-picker-slider/color-picker-slider.component';
 import {ColorPickerHslComponent} from '@/controls/color-picker/color-picker-hsl/color-picker-hsl.component';
+import {CardBoxComponent} from '@/components/card-box/card-box.component';
+import {CardComponent} from '@/components/card/card.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import {ColorPickerHslComponent} from '@/controls/color-picker/color-picker-hsl/
     MainComponent,
     WelcomeComponent,
     ImpressumComponent,
+    CardBoxComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,

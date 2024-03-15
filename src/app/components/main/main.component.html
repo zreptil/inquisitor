@@ -27,17 +27,10 @@
         <mat-icon>school</mat-icon>
       </button>
     </div>
+    <app-close-button [data]="closeData"></app-close-button>
   </div>
-  <div contentpanel>
-    <div sidebar>
-    </div>
-    <div contentback>
-      <div content>
-        <app-impressum *ngIf="globals.currentPage==='impressum'"></app-impressum>
-        <app-welcome *ngIf="globals.currentPage==='welcome'"></app-welcome>
-        <app-whats-new *ngIf="globals.currentPage==='news'"></app-whats-new>
-      </div>
-    </div>
+  <div content>
+    <app-card-box *ngIf="globals.currentPage==='cardbox'"></app-card-box>
   </div>
 </div>
 <app-progress></app-progress>

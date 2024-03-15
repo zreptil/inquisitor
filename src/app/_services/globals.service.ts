@@ -11,6 +11,8 @@ import {EnvironmentService} from '@/_services/environment.service';
 import {MessageService} from '@/_services/message.service';
 import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
+import {CardData} from '@/_model/card-data';
+import {CardConfig} from '@/_model/card-config';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -33,8 +35,6 @@ export class GlobalsService {
   dragPos: any = {};
   themeChanged = false;
   editColors = true;
-  appMode = 'standard';
-  editPart: string;
   maxLogEntries = 20;
   storageVersion: string;
   currentPage: string;
@@ -48,6 +48,14 @@ export class GlobalsService {
     xmas: GlobalsService.msgThemeXmas,
     own: GlobalsService.msgThemeOwn,
   }
+  titles: any = {
+    settings: $localize`Einstellungen`,
+    dsgvo: $localize`Datenschutzerklärung`,
+    help: $localize`Information`,
+    impressum: $localize`Impressum`,
+    welcome: $localize`Welcome to the Inquisition`,
+    whatsnew: $localize`Once upon a time...`
+  };
   private flags = '';
 
   constructor(public http: HttpClient,
@@ -59,11 +67,13 @@ export class GlobalsService {
     this.loadWebData();
     this.loadSharedData().then(_ => {
       if (Utils.isEmpty(this.storageVersion)) {
-        this.ms.showPopup(WelcomeComponent, 'welcome', {});
+        this.ms.showPopup(WelcomeComponent, 'welcome', {}).subscribe(_result => {
+          this.saveSharedData();
+        });
       } else if (this.storageVersion !== this.version) {
         this.ms.showPopup(WhatsNewComponent, 'whatsnew', {});
       } else {
-        this.currentPage = 'main';
+        this.currentPage = 'cardbox';
       }
     });
   }
@@ -88,6 +98,18 @@ export class GlobalsService {
 
   static get msgThemeXmas(): string {
     return $localize`:theme selection - christmas|:Weihnachten`;
+  }
+
+  _cardList: CardData[] = [];
+
+  get cardList(): CardData[] {
+    return this._cardList;
+  }
+
+  _cardConfig = new CardConfig();
+
+  get cardConfig(): CardConfig {
+    return this._cardConfig;
   }
 
   _isDebug = false;
@@ -173,6 +195,10 @@ export class GlobalsService {
     let storage: any = {};
     try {
       storage = JSON.parse(localStorage.getItem('sharedData')) ?? {};
+      this._cardList = storage.s2 ?? [];
+      this._cardConfig = new CardConfig();
+      this._cardConfig.fillFromJson(storage.s3);
+      this._cardConfig.extractCategories(this._cardList);
     } catch {
     }
     let syncData: any = await this.sync.downloadFile(this.env.settingsFilename);
@@ -193,6 +219,8 @@ export class GlobalsService {
     const storage: any = {
       s0: Date.now(),
       s1: this.version,
+      s2: this.cardList,
+      s3: this.cardConfig
     };
     const data = JSON.stringify(storage);
     localStorage.setItem('sharedData', data);

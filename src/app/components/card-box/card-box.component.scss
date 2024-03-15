@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+[cardview] {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+
+  button[nav] {
+    height: 100%;
+  }
+
+  app-card {
+    width: 60%;
+    height: 80%;
+  }
+}
+

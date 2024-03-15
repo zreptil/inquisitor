@@ -36,6 +36,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   exports: [
@@ -53,7 +54,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatButtonToggleModule,
     MatCardModule,
     MatCheckboxModule,
-    // MatChipsModule,
+    MatChipsModule,
     MatStepperModule,
     MatDatepickerModule,
     MatDividerModule,

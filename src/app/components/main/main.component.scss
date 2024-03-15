@@ -4,10 +4,6 @@
   overflow: hidden;
 }
 
-[mainpanel].trashing {
-  background: var(--toolbarBack);
-}
-
 [mainpanel] {
   display: flex;
   flex-flow: column;
@@ -21,10 +17,11 @@
     display: flex;
     flex-flow: row;
     justify-content: space-between;
-    background-color: var(--toolbarBack);
-    color: var(--toolbarFore);
+    background-color: var(--mainHeadBack);
+    color: var(--mainHeadFore);
     z-index: 2;
     position: relative;
+    padding: 0 1em;
 
     div {
       display: flex;
@@ -35,7 +32,7 @@
       max-width: 50%;
     }
 
-    div:nth-child(2) {
+    div[center] {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
@@ -51,8 +48,10 @@
     }
   }
 
-  [content].grid {
+  [content] {
+    display: flex;
     overflow-y: auto;
+    height: 100%;
   }
 }
 
@@ -68,6 +67,11 @@
 ::ng-deep .mat-menu-panel {
   background-color: var(--menuBack);
   color: var(--menuFore);
+}
+
+[mainpanel] {
+  background-color: var(--mainBodyBack);
+  color: var(--mainBodyFore);
 }
 
 .btnLanguage:not(:hover) {

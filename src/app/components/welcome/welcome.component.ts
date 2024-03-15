@@ -1,66 +1,27 @@
-import {Component} from '@angular/core';
-import {GlobalsService} from '@/_services/globals.service';
-import {SyncService} from '@/_services/sync/sync.service';
+import {Component, OnInit} from '@angular/core';
+import {DropboxService} from '@/_services/sync/dropbox.service';
 import {CloseButtonData} from '@/controls/close-button/close-button-data';
-import {Observable, of} from 'rxjs';
+import {GlobalsService} from '@/_services/globals.service';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss']
 })
-export class WelcomeComponent {
+export class WelcomeComponent implements OnInit {
+
   closeData: CloseButtonData = {
-    colorKey: 'welcome',
-    closeAction: (): Observable<boolean> => {
-      return of(true);
-    }
-  }
+    colorKey: 'whatsnew'
+  };
 
   constructor(public globals: GlobalsService,
-              public sync: SyncService) {
-
+              public dbs: DropboxService) {
   }
 
-  showMark(id: string) {
-    const elem = document.querySelector(`${id}`);
-    if (elem == null) {
-      return;
-    }
-    const mark = document.querySelector('#mark');
-    if (mark != null) {
-      mark.removeAttribute('hidden');
-      const off = this.getOffsets(elem);
-      let style = '';
-      style += `left:${off.x}px`;
-      style += `;top:${off.y}px`;
-      style += `;background:rgba(255,255,255,0.5)}`;
-      style += `;border:var(--markFrame) 3px solid`;
-      style += `;width:${elem.clientWidth - 6}px`;
-      style += `;height:${elem.clientHeight - 6}px`;
-      mark.setAttribute('style', style);
-      mark.className = 'animated bounceInLeft';
-    }
+  ngOnInit(): void {
   }
 
-  hideMark() {
-    const mark = document.querySelector('html #mark');
-    if (mark != null) {
-      mark.className = 'animated zoomOutRight';
-      mark.setAttribute('hidden', '');
-    }
-  }
-
-  getOffsets(elem: any, ret: any = null): any {
-    if (ret == null) {
-      ret = {x: 0, y: 0};
-    }
-    if (elem) {
-      ret.x += elem.offsetLeft;
-      ret.y += elem.offsetTop;
-      this.getOffsets(elem.offsetParent, ret);
-    }
-
-    return ret;
+  doSync() {
+    this.dbs.connect();
   }
 }

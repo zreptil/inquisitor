@@ -57,6 +57,7 @@ export interface IDialogControl {
   hint?: string,
   value?: any;
   helpList?: HelpListItem[];
+  autofocus?: boolean;
 }
 
 export interface IDialogChip {
