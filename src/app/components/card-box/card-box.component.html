@@ -1,15 +1,17 @@
 <div cardview>
-  <button *ngIf="hasPrevCard" mat-button nav>
+  <button (click)="clickPrev($event)" *ngIf="currentCard!=null" [disabled]="!hasPrevCard" mat-button nav>
     <mat-icon>arrow_left</mat-icon>
   </button>
 
-  <app-card [cardIdx]="cardIdx"></app-card>
+  <app-card *ngIf="currentCard!=null" [cardIdx]="cardIdx"></app-card>
+  <div *ngIf="currentCard==null" i18n>
+    By clicking the button in the right bottom corner a new card will be created.
+  </div>
 
-  <button (click)="addCard()" *ngIf="currentCard==null" extended mat-fab>
-    <mat-icon>add</mat-icon>
-    New Card
-  </button>
-  <button *ngIf="hasNextCard" mat-button nav>
+  <button (click)="clickNext($event)" *ngIf="currentCard!=null" [disabled]="!hasNextCard" mat-button nav>
     <mat-icon>arrow_right</mat-icon>
   </button>
 </div>
+<button (click)="addCard()" addBtn mat-fab>
+  <mat-icon>add</mat-icon>
+</button>

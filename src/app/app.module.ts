@@ -9,7 +9,7 @@ import {ColorPickerMixerComponent} from '@/controls/color-picker/color-picker-mi
 import {ColorPickerBaseComponent} from '@/controls/color-picker/color-picker-base.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {MainComponent} from '@/components/main/main.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {MaterialModule} from '@/material.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -26,6 +26,7 @@ import {ColorPickerSliderComponent} from '@/controls/color-picker/color-picker-s
 import {ColorPickerHslComponent} from '@/controls/color-picker/color-picker-hsl/color-picker-hsl.component';
 import {CardBoxComponent} from '@/components/card-box/card-box.component';
 import {CardComponent} from '@/components/card/card.component';
+import {NgxEditorModule} from 'ngx-editor';
 
 @NgModule({
   declarations: [
@@ -56,8 +57,44 @@ import {CardComponent} from '@/components/card/card.component';
     HttpClientModule,
     DragDropModule,
     LogComponent,
-    ProgressComponent
-  ],
+    ProgressComponent,
+    NgxEditorModule,
+    ReactiveFormsModule,
+    NgxEditorModule.forRoot({
+      locals: {
+        // menu
+        bold: 'Bold',
+        italic: 'Italic',
+        code: 'Code',
+        blockquote: 'Blockquote',
+        underline: 'Underline',
+        strike: 'Strike',
+        bullet_list: 'Bullet List',
+        ordered_list: 'Ordered List',
+        heading: 'Heading',
+        h1: 'Header 1',
+        h2: 'Header 2',
+        h3: 'Header 3',
+        h4: 'Header 4',
+        h5: 'Header 5',
+        h6: 'Header 6',
+        align_left: 'Left Align',
+        align_center: 'Center Align',
+        align_right: 'Right Align',
+        align_justify: 'Justify',
+        text_color: 'Text Color',
+        background_color: 'Background Color',
+
+        // popups, forms, others...
+        url: 'URL',
+        text: 'Text',
+        openInNewTab: 'Open in new tab',
+        insert: 'Insert',
+        altText: 'Alt Text',
+        title: 'Title',
+        remove: 'Remove',
+      }
+    })],
   providers: [],
   bootstrap: [AppComponent]
 })

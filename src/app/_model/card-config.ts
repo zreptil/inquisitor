@@ -12,7 +12,7 @@ export class CardConfig extends BaseData {
   categories: string[] = [];
 
   override get asJson(): any {
-    throw new Error('Method not implemented.');
+    return this.categories;
   }
 
   static fromJson(json: any): CardConfig {
@@ -30,11 +30,7 @@ export class CardConfig extends BaseData {
         }
       }
     }
-    for (let i = 0; i < 50; i++) {
-      ret.push(`Eintrag ${i}`);
-    }
     this.categories = ret;
-
   }
 
   override _fillFromJson(json: any, def?: any): void {

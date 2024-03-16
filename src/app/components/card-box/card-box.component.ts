@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CardData} from '@/_model/card-data';
 import {GLOBALS} from '@/_services/globals.service';
 import {MessageService} from '@/_services/message.service';
@@ -9,11 +9,12 @@ import {Utils} from '@/classes/utils';
   templateUrl: './card-box.component.html',
   styleUrl: './card-box.component.scss',
 })
-export class CardBoxComponent {
+export class CardBoxComponent implements OnInit {
   cardIdx: number;
 
+  // https://drive.google.com/file/d/1cdrsvc9mzF2hjalFwjWqxXYr2RXmr2Oa/view?usp=drive_link
+  // https://quizlet.com/de/894105546/das-sonnensystem-flash-cards/
   constructor(public ms: MessageService) {
-    this.addCard();
   }
 
   get currentCard(): CardData {
@@ -41,13 +42,32 @@ export class CardBoxComponent {
     this.currentCard.categories.push(...(value?.split(',') ?? []));
   }
 
+  ngOnInit() {
+    this.cardIdx = GLOBALS.cardList.length > 0 ? 0 : null;
+  }
+
   addCard() {
     const card = new CardData();
     card.categories.push('Standard');
-    card.question = 'Wer weiss denn sowas?';
-    card.answer = 'Keine alte Sau!';
+    if (GLOBALS.cardList.length === 0) {
+      card.question = $localize`What do you want to know?`;
+      card.answer = $localize`Everything!`;
+    } else {
+      card.question = $localize`Question`;
+      card.answer = $localize`Answer`;
+    }
     GLOBALS.cardList.push(card);
     this.cardIdx = GLOBALS.cardList.length - 1;
     this.cardConfig.extractCategories(GLOBALS.cardList);
+  }
+
+  clickPrev(evt: MouseEvent) {
+    evt.stopPropagation();
+    this.cardIdx = Math.max(0, this.cardIdx - 1);
+  }
+
+  clickNext(evt: MouseEvent) {
+    evt.stopPropagation();
+    this.cardIdx = Math.min(GLOBALS.cardList.length - 1, this.cardIdx + 1);
   }
 }

@@ -15,8 +15,14 @@ export class CardData extends BaseData {
     };
   }
 
+  static fromJson(json: any, def?: CardData): CardData {
+    const ret = new CardData();
+    ret.fillFromJson(json, def);
+    return ret;
+  }
+
   override _fillFromJson(json: any, def?: any): void {
-    console.log(json);
+    console.log('json', json);
     this.type = json.t;
     this.question = json.q;
     this.answer = json.a;

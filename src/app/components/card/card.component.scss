@@ -1,4 +1,5 @@
 :host {
+  perspective: 1000px;
 }
 
 .cardBox {
@@ -30,6 +31,12 @@ mat-card {
   position: relative;
   cursor: pointer;
   border-radius: 1em;
+  max-height: 100%;
+
+  ::ng-deep .NgxEditor {
+    max-height: calc(var(--doc-height) * 0.4);
+    overflow-y: auto;
+  }
 
   mat-card-title-group {
     display: flex;
@@ -46,6 +53,11 @@ mat-card {
     align-items: center;
     justify-content: center;
     font-size: 2em;
+    overflow-y: auto;
+
+    [content] {
+      pointer-events: none;
+    }
   }
 
   mat-card-content {

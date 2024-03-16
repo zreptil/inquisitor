@@ -13,15 +13,30 @@
   flex-flow: row;
   align-items: center;
   justify-content: center;
-  perspective: 1000px;
 
   button[nav] {
-    height: 100%;
+    height: 50%;
+
+    mat-icon {
+      font-size: 3em;
+      width: initial;
+      height: initial;
+    }
+
+    flex: 1;
   }
 
   app-card {
     width: 60%;
     height: 80%;
   }
+}
+
+[addBtn] {
+  position: absolute;
+  right: 0.5em;
+  bottom: 0.5em;
+  background-color: var(--mainHeadBack);
+  color: var(--mainHeadFore);
 }
 

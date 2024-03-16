@@ -1,9 +1,12 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {CardData} from '@/_model/card-data';
 import {GLOBALS} from '@/_services/globals.service';
-import {DialogType, IDialogDef} from '@/_model/dialog-data';
+import {DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
 import {MessageService} from '@/_services/message.service';
+import {Editor, Toolbar, Validators} from 'ngx-editor';
+import {FormControl, FormGroup} from '@angular/forms';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-card',
@@ -22,14 +25,30 @@ import {MessageService} from '@/_services/message.service';
     ])
   ]
 })
-export class CardComponent {
+export class CardComponent implements OnInit, OnDestroy {
   @Input()
   cardIdx: number;
   mode = 'view';
   cardFace = 'front';
   orgCard: any;
+  editor: Editor;
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']}],
+    ['link', 'image'],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
+  form = new FormGroup({
+    question: new FormControl('', Validators.required()),
+    answer: new FormControl('', Validators.required()),
+  });
 
-  constructor(public ms: MessageService) {
+  constructor(public ms: MessageService,
+              public sanitizer: DomSanitizer) {
   }
 
   get cardConfig() {
@@ -40,25 +59,43 @@ export class CardComponent {
     return this.cardIdx == null ? null : GLOBALS.cardList[this.cardIdx];
   }
 
+  // make sure to destory the editor
+  get dataForEdit(): any {
+    if (this.cardFace === 'front') {
+      return {t: $localize`Question`, n: 'question'};
+    }
+    return {t: $localize`Answer`, n: 'answer'};
+  }
+
+  ngOnInit(): void {
+    this.editor = new Editor();
+  }
+
+  ngOnDestroy(): void {
+    this.editor.destroy();
+  }
+
   isMode(check: string) {
     return this.mode === check && this.currentCard != null;
   }
 
   clickSave(evt: MouseEvent) {
+    this.currentCard.question = this.form.controls.question.value;
     evt.stopPropagation();
-    this.cardFace = 'front';
     this.mode = 'view';
+    GLOBALS.saveSharedData();
   }
 
   clickCancel(evt: MouseEvent) {
     evt.stopPropagation();
     this.currentCard?.fillFromJson(this.orgCard);
-    this.cardFace = 'front';
     this.mode = 'view';
   }
 
   clickEdit(evt: MouseEvent) {
     evt?.stopPropagation();
+    this.form.controls.question.setValue(this.currentCard.question);
+    this.form.controls.answer.setValue(this.currentCard.answer);
     this.orgCard = this.currentCard.asJson;
     this.mode = 'edit';
   }
@@ -95,13 +132,30 @@ export class CardComponent {
     }
   }
 
-  cardText(cardClass: string): string {
+  cardText(cardClass: string): SafeHtml {
     switch (cardClass) {
       case 'front':
-        return this.currentCard?.question;
+        return this.sanitizer.bypassSecurityTrustHtml(this.currentCard?.question);
       case 'back':
-        return this.currentCard?.answer;
+        return this.sanitizer.bypassSecurityTrustHtml(this.currentCard?.answer);
     }
     return '???';
+  }
+
+  clickQuestion(evt: MouseEvent) {
+    evt.stopPropagation();
+  }
+
+  clickAnswer(evt: MouseEvent) {
+    evt.stopPropagation();
+  }
+
+  clickDelete(evt: MouseEvent) {
+    evt.stopPropagation();
+    this.ms.confirm($localize`This will delete the card. Are you sure?`).subscribe(result => {
+      if (result?.btn === DialogResultButton.yes) {
+        GLOBALS.cardList.splice(this.cardIdx, 1);
+      }
+    });
   }
 }

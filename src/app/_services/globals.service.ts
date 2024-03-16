@@ -66,14 +66,13 @@ export class GlobalsService {
     GLOBALS = this;
     this.loadWebData();
     this.loadSharedData().then(_ => {
+      this.currentPage = 'cardbox';
       if (Utils.isEmpty(this.storageVersion)) {
         this.ms.showPopup(WelcomeComponent, 'welcome', {}).subscribe(_result => {
           this.saveSharedData();
         });
       } else if (this.storageVersion !== this.version) {
         this.ms.showPopup(WhatsNewComponent, 'whatsnew', {});
-      } else {
-        this.currentPage = 'cardbox';
       }
     });
   }
@@ -195,7 +194,19 @@ export class GlobalsService {
     let storage: any = {};
     try {
       storage = JSON.parse(localStorage.getItem('sharedData')) ?? {};
-      this._cardList = storage.s2 ?? [];
+      this._cardList = [];
+      const list = storage.s2 ?? [];
+      if (list != null) {
+        try {
+          for (const entry of list) {
+            this._cardList.push(CardData.fromJson(entry));
+          }
+        } catch (ex) {
+          Log.devError(ex, `error when loading shared data (cardlist)`);
+        }
+      } else {
+        //          saveStorage("mu", null);
+      }
       this._cardConfig = new CardConfig();
       this._cardConfig.fillFromJson(storage.s3);
       this._cardConfig.extractCategories(this._cardList);
@@ -213,14 +224,20 @@ export class GlobalsService {
 
     this.storageVersion = storage.s1;
     // validate values
+    console.log('list', this._cardList);
   }
 
   saveSharedData(): void {
+    const cardList = [];
+    for (let i = 0; i < this._cardList.length; i++) {
+      cardList.push(this._cardList[i].asJson);
+    }
+
     const storage: any = {
       s0: Date.now(),
       s1: this.version,
-      s2: this.cardList,
-      s3: this.cardConfig
+      s2: cardList,
+      s3: this.cardConfig.asJson
     };
     const data = JSON.stringify(storage);
     localStorage.setItem('sharedData', data);
