@@ -10,7 +10,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8720977247725652816" datatype="html">
@@ -316,7 +316,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4930506384627295710" datatype="html">
@@ -369,35 +369,35 @@
         <source>Einstellungen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7623135239551445678" datatype="html">
         <source>Datenschutzerklärung</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5891707175321515013" datatype="html">
         <source>Imprint</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7408275872569108304" datatype="html">
         <source>Welcome to the Inquisition</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
       <trans-unit id="78489376954995556" datatype="html">
         <source>Eigenes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">80</context>
+          <context context-type="linenumber">81</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - own</note>
       </trans-unit>
@@ -405,7 +405,7 @@
         <source>Automatisch</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">91</context>
+          <context context-type="linenumber">92</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - automatic</note>
       </trans-unit>
@@ -413,7 +413,7 @@
         <source>Standard</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">95</context>
+          <context context-type="linenumber">96</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - standard</note>
       </trans-unit>
@@ -421,7 +421,7 @@
         <source>Weihnachten</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">99</context>
+          <context context-type="linenumber">100</context>
         </context-group>
         <note priority="1" from="meaning">theme selection - christmas</note>
       </trans-unit>
@@ -429,7 +429,7 @@
         <source>There was no answer within <x id="PH" equiv-text="params.timeout / 1000"/> seconds at <x id="PH_1" equiv-text="url"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">311</context>
+          <context context-type="linenumber">416</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7351700212933699939" datatype="html">
@@ -736,11 +736,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">72</context>
+          <context context-type="linenumber">71</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">72</context>
+          <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4669216542007588508" datatype="html">
@@ -755,18 +755,18 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">73</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2129642223825976410" datatype="html">
         <source>Reset all Questions / Answers to default and loose everything you entered?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card-box/card-box.component.ts</context>
-          <context context-type="linenumber">115</context>
+          <context context-type="linenumber">114</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3768927257183755959" datatype="html">
@@ -777,7 +777,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">146</context>
+          <context context-type="linenumber">160</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component.html</context>
@@ -788,32 +788,53 @@
           <context context-type="linenumber">75</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="7841430672042223267" datatype="html">
+        <source>Correct</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/card/card.component.html</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2748884846672363037" datatype="html">
+        <source>Wrong</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/card/card.component.html</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1588636432050016093" datatype="html">
+        <source>Unsteady</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/card/card.component.html</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4762357517538202618" datatype="html">
         <source>Do you really want to discard the changes?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">103</context>
+          <context context-type="linenumber">117</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5118252912248143117" datatype="html">
         <source>Enter new category</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">141</context>
+          <context context-type="linenumber">155</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2159130950882492111" datatype="html">
         <source>Cancel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">145</context>
+          <context context-type="linenumber">159</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2134118752304088928" datatype="html">
         <source>This will delete the card. Are you sure?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">186</context>
+          <context context-type="linenumber">200</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2724055831234181057" datatype="html">

@@ -94,6 +94,16 @@ mat-card {
     flex: 1;
     flex-flow: column;
 
+    [small] {
+      font-size: 75%;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      color: rgba(0, 0, 0, 0.5);
+    }
+
     [categories] {
       display: flex;
       flex-flow: row;
@@ -122,10 +132,33 @@ mat-card {
     top: 0;
   }
 
-  mat-card-actions[bottom] {
+  mat-card-actions[bottomfront] {
     position: absolute;
     right: 0;
     bottom: 0;
     justify-content: flex-end;
+  }
+
+  mat-card-actions[bottomback] {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    justify-content: space-between;
+
+    [correct] {
+      background-color: lime;
+      color: black;
+    }
+
+    [unsteady] {
+      background-color: yellow;
+      color: black;
+    }
+
+    [wrong] {
+      background-color: red;
+      color: white;
+    }
   }
 }

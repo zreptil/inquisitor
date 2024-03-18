@@ -24,6 +24,6 @@
 <button (click)="clickDefault()" defBtn mat-fab>
   <mat-icon>restart_alt</mat-icon>
 </button>
-<button (click)="addCard()" addBtn mat-fab>
+<button (click)="addCard()" *ngIf="globals.cardMode !== 'edit'" addBtn mat-fab>
   <mat-icon>add</mat-icon>
 </button>

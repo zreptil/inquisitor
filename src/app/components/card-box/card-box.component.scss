@@ -64,6 +64,12 @@
         transition: transform 1s;
         backface-visibility: hidden;
       }
+
+      @media(max-width: 1000px) {
+        app-card {
+          width: 95%;
+        }
+      }
     }
   }
 }

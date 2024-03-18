@@ -39,6 +39,7 @@ export class GlobalsService {
   storageVersion: string;
   currentPage: string;
   language: LangData;
+  cardMode = 'view';
   _syncType: oauth2SyncType;
   oauth2AccessToken: string = null;
   ownTheme: any;
@@ -193,13 +194,13 @@ export class GlobalsService {
   get defaultCards(): any[] {
     return [{
       'q': '<p><span style="color:rgb(0, 0, 0);">Wie groß ist die </span><strong><span style="color:rgb(0, 0, 0);">Masse</span></strong><span style="color:rgb(0, 0, 0);"> der </span><strong><span style="color:rgb(0, 0, 0);">Erde</span></strong><span style="color:rgb(0, 0, 0);">?</span></p>',
-      'a': '<p><strong><span style="color:rgb(0, 0, 0);">5,97 x 10^21 t</span></strong><span style="color:rgb(0, 0, 0);"><br>bzw. 5,97 x 10^24 kg</span></p>',
+      'a': '<p><strong>5,97 Trilliarden Tonnen</strong></p><p><span style="color:rgb(0, 0, 0);">5,97 x 10^21 t<br>5,97 x 10^24 kg</span></p>',
       'c': ['Standard'],
       'cb': 'rgba(208,67,67,1)',
       'cf': 'black'
     }, {
       'q': '<p>Wie groß ist die <strong>Masse </strong>der <strong>Sonne</strong>?</p>',
-      'a': '<p><strong>1,98 x 10^27 t</strong><br>bzw. 1,98 x 10^30 kg</p>',
+      'a': '<p><strong>1,98 Quadrilliarden Tonnen</strong></p><p>1,98 x 10^27 t<br>1,98 x 10^30 kg</p>',
       'c': ['Standard'],
       'cb': 'rgba(255,255,0,1)',
       'cf': 'rgba(0,0,0,1)'
@@ -221,7 +222,7 @@ export class GlobalsService {
       'c': ['Standard']
     }, {
       'q': '<p>Wie groß ist die <strong>Masse </strong>von <strong>Jupiter</strong>?</p>',
-      'a': '<p><strong>1,9 x 10^24 t</strong><br>bzw. 1,9 x 10^27 kg</p>',
+      'a': '<p><strong>1,9 Quadrillionen Tonnen</strong></p><p>1,9 x 10^24 t<br>1,9 x 10^27 kg</p>',
       'c': ['Standard']
     }, {
       'q': '<p>Wie groß ist der <strong>Umfang</strong> der <strong>Erde</strong>?</p>',
@@ -260,16 +261,8 @@ export class GlobalsService {
       'a': '<p><strong>Proxima Centauri</strong><br>4,24 Lichtjahre</p>',
       'c': ['Standard']
     }, {
-      'q': '<p>Wie weit ist der <strong>nächste Stern</strong> von der <strong>Erde </strong>entfernt?</p>',
-      'a': '<p><strong>4,24 Lichtjahre</strong><br>Proxima Centauri</p>',
-      'c': ['Standard']
-    }, {
       'q': '<p>Welche <strong>Galaxie </strong>ist der <strong>Erde </strong>am nächsten?</p>',
       'a': '<p><strong>Andromeda-Galaxie</strong><br>2,5 Mio. Lichtjahre</p>',
-      'c': ['Standard']
-    }, {
-      'q': '<p>Wie weit ist die nächste <strong>Galaxie </strong>von der <strong>Erde </strong>entfernt?</p>',
-      'a': '<p><strong>2,5 Mio. Lichtjahre</strong><br>Andromeda-Galaxie</p>',
       'c': ['Standard']
     }, {
       'q': '<p>Wie schnell bewegt sich die <strong>Milchstraße </strong>durch das <strong>Universum</strong>?</p>',

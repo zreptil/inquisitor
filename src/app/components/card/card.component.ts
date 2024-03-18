@@ -19,7 +19,6 @@ export class CardComponent implements OnInit, OnDestroy {
   cardIdx: number;
   @Input()
   active = false;
-  mode = 'view';
   orgCard: any;
   editor: Editor;
   toolbar: Toolbar = [
@@ -99,7 +98,7 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   isMode(check: string) {
-    return this.mode === check && this.currentCard != null;
+    return GLOBALS.cardMode === check && this.currentCard != null;
   }
 
   clickSave(evt: MouseEvent) {
@@ -107,7 +106,7 @@ export class CardComponent implements OnInit, OnDestroy {
       (this.currentCard as any)[this.cardFace] = this.form.controls.edit.value;
     }
     evt.stopPropagation();
-    this.mode = 'view';
+    GLOBALS.cardMode = 'view';
     GLOBALS.saveSharedData();
   }
 
@@ -119,12 +118,12 @@ export class CardComponent implements OnInit, OnDestroy {
         .subscribe(result => {
           if (result?.btn === DialogResultButton.yes) {
             this.currentCard?.fillFromJson(this.orgCard);
-            this.mode = 'view';
+            GLOBALS.cardMode = 'view';
           }
         });
     } else {
       this.currentCard?.fillFromJson(this.orgCard);
-      this.mode = 'view';
+      GLOBALS.cardMode = 'view';
     }
   }
 
@@ -133,7 +132,7 @@ export class CardComponent implements OnInit, OnDestroy {
     this.form.controls.edit.setValue((this.currentCard as any)?.[this.cardFace]);
     this.form.controls.cardFace.setValue(this.cardFace);
     this.orgCard = this.currentCard.asJson;
-    this.mode = 'edit';
+    GLOBALS.cardMode = 'edit';
     this.activateEdit();
   }
 
@@ -178,14 +177,20 @@ export class CardComponent implements OnInit, OnDestroy {
     }
   }
 
-  cardText(cardClass: string): SafeHtml {
+  cardText(cardClass: string, removeColors = false): SafeHtml {
+    let text = '???';
     switch (cardClass) {
       case 'front':
-        return this.sanitizer.bypassSecurityTrustHtml(this.currentCard?.front);
+        text = this.currentCard?.front;
+        break;
       case 'back':
-        return this.sanitizer.bypassSecurityTrustHtml(this.currentCard?.back);
+        text = this.currentCard?.back;
+        break;
     }
-    return '???';
+    if (removeColors) {
+      text = text.replace(/([^c]*)(color:[^;]*;)([^c]*)/g, '$1$3');
+    }
+    return this.sanitizer.bypassSecurityTrustHtml(text);
   }
 
   clickQuestion(evt: MouseEvent) {
@@ -226,16 +231,27 @@ export class CardComponent implements OnInit, OnDestroy {
 
   @HostListener('document:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
-    switch (event.code) {
-      case 'Space':
-      case 'ArrowUp':
-      case 'ArrowDown':
-        this.turnCard();
-        break;
+    if (GLOBALS.cardMode !== 'edit') {
+      switch (event.code) {
+        case 'Space':
+        case 'ArrowUp':
+        case 'ArrowDown':
+          this.turnCard();
+          break;
+      }
     }
   }
 
-  colorSelected(evt: Event) {
-    console.log(evt);
+  clickResult(evt: MouseEvent, value: string) {
+    evt?.stopPropagation();
+    switch (value) {
+      case 'correct':
+        break;
+      case 'unsteady':
+        break;
+      case 'wrong':
+        break;
+    }
+    this.cardFace = 'front';
   }
 }

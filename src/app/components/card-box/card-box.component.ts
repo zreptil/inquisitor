@@ -33,11 +33,11 @@ export class CardBoxComponent implements OnInit {
   }
 
   get hasPrevCard(): boolean {
-    return this.cardIdx > 0;
+    return GLOBALS.cardMode === 'edit' ? false : this.cardIdx > 0;
   }
 
   get hasNextCard(): boolean {
-    return this.cardIdx < GLOBALS.cardList.length - 1;
+    return GLOBALS.cardMode === 'edit' ? false : this.cardIdx < GLOBALS.cardList.length - 1;
   }
 
   get currCat(): string {
@@ -92,7 +92,7 @@ export class CardBoxComponent implements OnInit {
 
   initCards(): void {
     const cellCount = GLOBALS.cardList.length;
-    const cellSize = window.innerWidth * 0.8;
+    const cellSize = window.innerWidth;
     this.theta = 360 / cellCount;
     this.radius = Math.round((cellSize / 2) / Math.tan(Math.PI / cellCount));
   }
@@ -128,15 +128,15 @@ export class CardBoxComponent implements OnInit {
 
   @HostListener('document:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
-    switch (event.code) {
-      case 'ArrowLeft':
-        this.clickPrev(null);
-        break;
-      case 'ArrowRight':
-        this.clickNext(null);
-        break;
-      default:
-        console.log(event.code);
+    if (GLOBALS.cardMode !== 'edit') {
+      switch (event.code) {
+        case 'ArrowLeft':
+          this.clickPrev(null);
+          break;
+        case 'ArrowRight':
+          this.clickNext(null);
+          break;
+      }
     }
   }
 }
