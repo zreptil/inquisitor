@@ -1,5 +1,4 @@
 import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
 import {CardData} from '@/_model/card-data';
 import {GLOBALS} from '@/_services/globals.service';
 import {DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
@@ -7,23 +6,13 @@ import {MessageService} from '@/_services/message.service';
 import {Editor, Toolbar, Validators} from 'ngx-editor';
 import {FormControl, FormGroup} from '@angular/forms';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import {ColorCfgDialogComponent} from '@/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component';
+import {ThemeService} from '@/_services/theme.service';
 
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
-  animations: [
-    trigger('flipState', [
-      state('back', style({
-        transform: 'rotateX(180deg)'
-      })),
-      state('front', style({
-        transform: 'rotateX(0)'
-      })),
-      transition('front => back', animate('1000ms ease-out')),
-      transition('back => front', animate('1000ms ease-in'))
-    ])
-  ]
 })
 export class CardComponent implements OnInit, OnDestroy {
   @Input()
@@ -31,8 +20,6 @@ export class CardComponent implements OnInit, OnDestroy {
   @Input()
   active = false;
   mode = 'view';
-  @Input()
-  cardFace = 'front';
   orgCard: any;
   editor: Editor;
   toolbar: Toolbar = [
@@ -51,7 +38,18 @@ export class CardComponent implements OnInit, OnDestroy {
   });
 
   constructor(public ms: MessageService,
-              public sanitizer: DomSanitizer) {
+              public sanitizer: DomSanitizer,
+              public ts: ThemeService) {
+  }
+
+  get cardFace(): string {
+    return this.currentCard?.face;
+  }
+
+  set cardFace(value: string) {
+    if (this.currentCard != null) {
+      this.currentCard.face = value;
+    }
   }
 
   get cardConfig() {
@@ -62,12 +60,34 @@ export class CardComponent implements OnInit, OnDestroy {
     return this.cardIdx == null ? null : GLOBALS.cardList[this.cardIdx];
   }
 
-  // make sure to destory the editor
+  get styleForCard(): any {
+    return {
+      backgroundColor: this.currentCard.colorBack ?? 'white',
+      color: this.currentCard.colorFore ?? 'black'
+    };
+  }
+
   get dataForEdit(): any {
     if (this.cardFace === 'front') {
       return {t: $localize`Question`, n: 'front', p: $localize`Question`};
     }
     return {t: $localize`Answer`, n: 'back', p: $localize`Answer`};
+  }
+
+  // make sure to destory the editor
+  get styleForForm(): any {
+    const color = {
+      b: this.currentCard.colorBack ?? 'white',
+      f: this.currentCard.colorFore ?? 'black'
+    };
+    return {
+      '--mat-standard-button-toggle-text-color': color.f,
+      '--mat-standard-button-toggle-background-color': color.b,
+      '--mat-standard-button-toggle-state-layer-color': color.f,
+      '--mat-standard-button-toggle-selected-state-background-color': color.f,
+      '--mat-standard-button-toggle-selected-state-text-color': color.b,
+      '--mat-standard-button-toggle-divider-color': color.f
+    };
   }
 
   ngOnInit(): void {
@@ -185,15 +205,23 @@ export class CardComponent implements OnInit, OnDestroy {
     });
   }
 
-  clickEditChange(evt: MouseEvent, type: string) {
-
-  }
-
-  onCardFaceChange(evt: any) {
+  onCardFaceChange(_evt: any) {
     (this.currentCard as any)[this.cardFace] = this.form.controls.edit.value;
     this.cardFace = this.form.controls.cardFace.value;
     this.form.controls.edit.setValue((this.currentCard as any)[this.cardFace]);
     this.activateEdit();
+  }
+
+  showColorDialog() {
+    this.ts.currTheme.cardBodyBack = this.currentCard.colorBack ?? 'white';
+    this.ts.currTheme.cardBodyFore = this.currentCard.colorFore ?? 'black';
+    this.ms.showPopup(ColorCfgDialogComponent, 'colorcfgdialog',
+      {colorKey: 'card'})
+      .subscribe(_result => {
+        this.currentCard.colorBack = this.ts.currTheme.cardBodyBack;
+        this.currentCard.colorFore = this.ts.currTheme.cardBodyFore;
+        GLOBALS.saveSharedData();
+      });
   }
 
   @HostListener('document:keyup', ['$event'])
@@ -205,5 +233,9 @@ export class CardComponent implements OnInit, OnDestroy {
         this.turnCard();
         break;
     }
+  }
+
+  colorSelected(evt: Event) {
+    console.log(evt);
   }
 }

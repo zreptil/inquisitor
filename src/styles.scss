@@ -199,6 +199,11 @@ html {
     justify-content: center;
     font-size: 12px;
   }
+
+  img {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 .dialog-box {
@@ -257,14 +262,6 @@ html {
 
     .mat-mdc-dialog-actions:not([align=end]) {
       justify-content: space-between;
-    }
-  }
-}
-
-.dialog-box.colorcfgdialog {
-  mat-dialog-container {
-    [mat-dialog-title] {
-      justify-content: flex-start;
     }
   }
 }
@@ -747,3 +744,6 @@ form.oauth2 {
   color: var(--headFore);
 }
 
+.mdc-dialog__title::before {
+  display: none !important;
+}

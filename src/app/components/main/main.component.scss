@@ -80,6 +80,28 @@
   }
 }
 
+.language.current {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.btnLanguage {
+  button {
+    --mdc-icon-button-state-layer-size: 32px;
+
+    ::ng-deep .mat-mdc-button-touch-target {
+      width: 24px;
+      height: 24px;
+    }
+
+    img {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      transform: translateX(-50%) translateY(-50%);
+    }
+  }
+}
+
 .crowdin {
   margin-top: 48px;
   position: fixed;

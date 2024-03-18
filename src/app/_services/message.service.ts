@@ -1,10 +1,9 @@
 import {DialogData, DialogParams, DialogResult, DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
 import {Injectable} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {map, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {DialogComponent} from '@/components/dialog/dialog.component';
 import {ComponentType} from '@angular/cdk/overlay';
-import {GLOBALS} from '@/_services/globals.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,11 +27,11 @@ export class MessageService {
     return this.showDialog(type, content, false, params);
   }
 
-  showPopup(dlg: ComponentType<any>, id: string, data: any): Observable<DialogResult> {
+  showPopup(dlg: ComponentType<any>, id: string, data: any, disableClose = true): Observable<DialogResult> {
     const dlgRef = this.dialog.open(dlg, {
       data: data,
       panelClass: ['dialog-box', id],
-      disableClose: true
+      disableClose: disableClose
     });
     return dlgRef.afterClosed();
   }
@@ -56,7 +55,7 @@ export class MessageService {
       this.dlgRef = this.dialog.open(DialogComponent, {
         panelClass: cls,
         data: new DialogData(type, content, params, null),
-        disableClose
+        disableClose: disableClose
       });
       this.dlgRef.keydownEvents().subscribe(event => {
         if (event.code === 'Escape') {

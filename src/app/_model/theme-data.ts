@@ -39,6 +39,8 @@ export class ThemeData {
   static colorData: any = {
     mainHead: {title: $localize`Title`},
     mainBody: {title: $localize`Content`},
+    cardHead: {title: $localize`Title`},
+    cardBody: {title: $localize`Content`},
     settingsHead: {title: $localize`Title`},
     settingsBody: {title: $localize`Content`},
     settingsError: {title: $localize`Error`},
@@ -74,6 +76,7 @@ export class ThemeData {
     dlgError: {title: $localize`Dialog`},
     user: {title: $localize`User`},
     dialog: {title: $localize`Dialog`},
+    card: {title: $localize`Card`}
   }
 
   /**

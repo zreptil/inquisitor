@@ -1,14 +1,12 @@
 <ng-container *ngIf="active; else elseBlock">
-  <ng-container *ngIf="isMode('view')">
-    <div (click)="turnCard()" [@flipState]="cardFace" class="cardBox">
-      <ng-container [ngTemplateOutletContext]="{cardClass:'front'}"
-                    [ngTemplateOutlet]="tplCard"></ng-container>
-      <ng-container [ngTemplateOutletContext]="{cardClass:'back'}"
-                    [ngTemplateOutlet]="tplCard"></ng-container>
-    </div>
-  </ng-container>
-  <form *ngIf="isMode('edit')" [formGroup]="form">
-    <mat-card>
+  <div (click)="turnCard()" *ngIf="isMode('view')" [class]="['cardBox', cardFace]">
+    <ng-container [ngTemplateOutletContext]="{cardClass:'front'}"
+                  [ngTemplateOutlet]="tplCard"></ng-container>
+    <ng-container [ngTemplateOutletContext]="{cardClass:'back'}"
+                  [ngTemplateOutlet]="tplCard"></ng-container>
+  </div>
+  <form *ngIf="isMode('edit')" [formGroup]="form" [style]="styleForForm">
+    <mat-card [style]="styleForCard">
       <mat-card-header>
         <mat-card-title-group>
           <mat-card-title>
@@ -24,6 +22,9 @@
             </mat-button-toggle-group>
           </mat-card-title>
           <mat-card-actions top>
+            <button (click)="showColorDialog()" mat-icon-button micro-button>
+              <mat-icon>palette</mat-icon>
+            </button>
             <button (click)="clickCancel($event)" mat-icon-button>
               <mat-icon>close</mat-icon>
             </button>
@@ -75,7 +76,7 @@
     </mat-card>
   </form>
   <ng-template #tplCard let-cardClass="cardClass">
-    <mat-card [class]="cardClass">
+    <mat-card [class]="cardClass" [style]="styleForCard">
       <mat-card-actions top>
         <button (click)="clickEdit($event)" mat-icon-button>
           <mat-icon>edit</mat-icon>
@@ -98,7 +99,7 @@
   </ng-template>
 </ng-container>
 <ng-template #elseBlock>
-  <mat-card [class]="'front'">
+  <mat-card [class]="'front'" [style]="styleForCard">
     <mat-card-content view>
       <div [innerHTML]="cardText('front')" content></div>
     </mat-card-content>

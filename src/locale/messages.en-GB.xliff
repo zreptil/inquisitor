@@ -73,7 +73,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6026586747124992284" datatype="html">
@@ -155,7 +155,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">44</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
@@ -163,7 +163,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
+          <context context-type="linenumber">53</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.module.ts</context>
@@ -200,7 +204,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">45</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
@@ -208,103 +212,107 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2906587845957718064" datatype="html">
         <source>Local</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">49</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">70</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8289732336438690874" datatype="html">
-        <source>Beta</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">50</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">71</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3422890808980876594" datatype="html">
-        <source>Debug</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">51</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
           <context context-type="linenumber">72</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="8289732336438690874" datatype="html">
+        <source>Beta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
+          <context context-type="linenumber">73</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3422890808980876594" datatype="html">
+        <source>Debug</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4701722246135514000" datatype="html">
         <source>Dialog Error Title</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7474910142039034841" datatype="html">
         <source>Dialog Error Content</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3448013076122676739" datatype="html">
         <source>Dialog Warning Title</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5030756605992819393" datatype="html">
         <source>Dialog Warning Content</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3590805807378700861" datatype="html">
         <source>Google</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="314315645942131479" datatype="html">
         <source>Info</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7911416166208830577" datatype="html">
         <source>Help</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">65</context>
+          <context context-type="linenumber">67</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7814069298939347422" datatype="html">
         <source>Legal</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">68</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8245636934809197771" datatype="html">
         <source>Once upon a time...</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">67</context>
+          <context context-type="linenumber">69</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
@@ -315,39 +323,46 @@
         <source>Settings</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">70</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1980504865097627824" datatype="html">
         <source>Log</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">69</context>
+          <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7188920048243248744" datatype="html">
         <source>Mainpage</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">75</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4370054324502575963" datatype="html">
         <source>Dialog</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">76</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">76</context>
+          <context context-type="linenumber">78</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2392488717875840729" datatype="html">
         <source>User</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5691966639616932851" datatype="html">
+        <source>Card</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_model/theme-data.ts</context>
+          <context context-type="linenumber">79</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4435703504669117699" datatype="html">
@@ -699,70 +714,70 @@
         <source>What do you want to know?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card-box/card-box.component.ts</context>
-          <context context-type="linenumber">74</context>
+          <context context-type="linenumber">61</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4970565773078094576" datatype="html">
         <source>Everything!</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card-box/card-box.component.ts</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5320870651003627043" datatype="html">
         <source>Question</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card-box/card-box.component.ts</context>
-          <context context-type="linenumber">77</context>
+          <context context-type="linenumber">64</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.html</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">16</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">72</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">72</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4669216542007588508" datatype="html">
         <source>Answer</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card-box/card-box.component.ts</context>
-          <context context-type="linenumber">78</context>
+          <context context-type="linenumber">65</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.html</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">20</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">70</context>
+          <context context-type="linenumber">74</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">70</context>
+          <context context-type="linenumber">74</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2129642223825976410" datatype="html">
         <source>Reset all Questions / Answers to default and loose everything you entered?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card-box/card-box.component.ts</context>
-          <context context-type="linenumber">120</context>
+          <context context-type="linenumber">115</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3768927257183755959" datatype="html">
         <source>Save</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.html</context>
-          <context context-type="linenumber">70</context>
+          <context context-type="linenumber">71</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">137</context>
+          <context context-type="linenumber">146</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component.html</context>
@@ -777,28 +792,28 @@
         <source>Do you really want to discard the changes?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">98</context>
+          <context context-type="linenumber">103</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5118252912248143117" datatype="html">
         <source>Enter new category</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">132</context>
+          <context context-type="linenumber">141</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2159130950882492111" datatype="html">
         <source>Cancel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">136</context>
+          <context context-type="linenumber">145</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2134118752304088928" datatype="html">
         <source>This will delete the card. Are you sure?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">177</context>
+          <context context-type="linenumber">186</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2724055831234181057" datatype="html">

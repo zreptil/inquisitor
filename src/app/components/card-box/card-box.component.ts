@@ -3,7 +3,6 @@ import {CardData} from '@/_model/card-data';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {MessageService} from '@/_services/message.service';
 import {Utils} from '@/classes/utils';
-import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DialogResultButton} from '@/_model/dialog-data';
 
 // https://3dtransforms.desandro.com/carousel
@@ -11,18 +10,6 @@ import {DialogResultButton} from '@/_model/dialog-data';
   selector: 'app-card-box',
   templateUrl: './card-box.component.html',
   styleUrl: './card-box.component.scss',
-  animations: [
-    trigger('move', [
-      state('next', style({
-        transform: 'translateX(-100%)'
-      })),
-      state('prev', style({
-        transform: 'translateX(100%)'
-      })),
-      transition('current => next', animate('1000ms ease-out')),
-      transition('current => prev', animate('1000ms ease-in'))
-    ])
-  ]
 })
 export class CardBoxComponent implements OnInit {
   cardIdx: number;
@@ -85,14 +72,22 @@ export class CardBoxComponent implements OnInit {
 
   clickPrev(evt: MouseEvent) {
     evt?.stopPropagation();
+    this.resetAllFaces();
     this.cardIdx = Math.max(0, this.cardIdx - 1);
     //this.moveTrigger = 'prev';
   }
 
   clickNext(evt: MouseEvent) {
     evt?.stopPropagation();
+    this.resetAllFaces();
     this.cardIdx = Math.min(GLOBALS.cardList.length - 1, this.cardIdx + 1);
 //    this.moveTrigger = 'next';
+  }
+
+  resetAllFaces(): void {
+    for (const card of GLOBALS.cardList) {
+      card.face = 'front';
+    }
   }
 
   initCards(): void {
@@ -104,10 +99,9 @@ export class CardBoxComponent implements OnInit {
 
   styleForGroup(): any {
     const angle = this.theta * this.cardIdx * -1;
-    const ret: any = {
+    return {
       transform: `translateZ(${-this.radius}px)rotateY(${angle}deg)`
     };
-    return ret;
   }
 
   styleForCard(idx: number): any {
@@ -121,7 +115,7 @@ export class CardBoxComponent implements OnInit {
       .subscribe(result => {
         if (result?.btn === DialogResultButton.yes) {
           const list = [];
-          for (const card of GLOBALS.getDefaultCards()) {
+          for (const card of GLOBALS.defaultCards) {
             list.push(CardData.fromJson(card));
           }
           GLOBALS.cardList.splice(0, GLOBALS.cardList.length);

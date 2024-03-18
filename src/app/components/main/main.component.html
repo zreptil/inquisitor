@@ -26,17 +26,19 @@
       <button (click)="onClick('welcome')" id="welcome" mat-icon-button>
         <mat-icon>school</mat-icon>
       </button>
+    </div>
+    <div>
       <div *ngFor="let item of ls.languageList; let idx = index" [ngStyle]="{zIndex:1000-idx}"
            class="btnLanguage">
-        <button (click)="clickLanguage(item)" mat-icon-button>
+        <button (click)="clickLanguage(item)" [class]="classForLanguage(item)" mat-icon-button>
           <img alt="language image" class="language" src="{{item.imgPath}}">
         </button>
         <a *ngIf="item.crowdin != null" [href]="item.crowdin.languageUrl" class="crowdin" target="_blank" title="Crowdin">
           <img [src]="item.crowdin.languageBadgeUrl" alt="{{item.crowdin.langName}} proofreading">
         </a>
       </div>
+      <app-close-button [data]="closeData"></app-close-button>
     </div>
-    <app-close-button [data]="closeData"></app-close-button>
   </div>
   <div content>
     <app-card-box *ngIf="globals.currentPage==='cardbox'"></app-card-box>

@@ -3,6 +3,8 @@
   "mainHeadFore": "#fff",
   "mainBodyBack": "mat-green-300",
   "mainBodyFore": "#000",
+  "cardBodyBack": "#fff",
+  "cardBodyFore": "#000",
   "settingsHeadBack": "mat-cyan-900",
   "settingsHeadFore": "mat-cyan-100",
   "settingsBodyBack": "mat-cyan-300",

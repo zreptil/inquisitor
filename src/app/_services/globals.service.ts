@@ -190,161 +190,31 @@ export class GlobalsService {
     return 'own';
   }
 
-  async loadSharedData() {
-    let storage: any = {};
-    try {
-      storage = JSON.parse(localStorage.getItem('sharedData')) ?? {};
-      this._cardList = [];
-      const list = storage.s2 ?? [];
-      if (list != null) {
-        try {
-          for (const entry of list) {
-            this._cardList.push(CardData.fromJson(entry));
-          }
-        } catch (ex) {
-          Log.devError(ex, `error when loading shared data (cardlist)`);
-        }
-      } else {
-        //          saveStorage("mu", null);
-      }
-      this._cardConfig = new CardConfig();
-      this._cardConfig.fillFromJson(storage.s3);
-      this._cardConfig.extractCategories(this._cardList);
-    } catch {
-    }
-    let syncData: any = await this.sync.downloadFile(this.env.settingsFilename);
-    if (syncData != null) {
-      try {
-        if (+syncData.s0 > +storage.s0) {
-          storage = syncData;
-        }
-      } catch {
-      }
-    }
-
-    this.storageVersion = storage.s1;
-    // validate values
-  }
-
-  saveSharedData(): void {
-    const cardList = [];
-    for (let i = 0; i < this._cardList.length; i++) {
-      cardList.push(this._cardList[i].asJson);
-    }
-
-    const storage: any = {
-      s0: Date.now(),
-      s1: this.version,
-      s2: cardList,
-      s3: this.cardConfig.asJson
-    };
-    const data = JSON.stringify(storage);
-    localStorage.setItem('sharedData', data);
-    if (this.sync.hasSync) {
-      this.sync.uploadFile(this.env.settingsFilename, data);
-    }
-  }
-
-  loadWebData(): void {
-    let storage: any = {};
-    try {
-      storage = JSON.parse(localStorage.getItem('webData')) ?? {};
-    } catch {
-    }
-
-    const code = storage.w0 ?? 'en-GB';
-    this.language = this.ls.languageList.find((lang) => lang.code === code);
-    this._syncType = storage.w1 ?? oauth2SyncType.none;
-    this.oauth2AccessToken = storage.w2;
-    this.theme = storage.w3 ?? 'standard';
-
-    // validate values
-    if (this.oauth2AccessToken == null) {
-      this._syncType = oauth2SyncType.none;
-    }
-  }
-
-  saveWebData(): void {
-    const storage: any = {
-      w0: this.language.code ?? 'de_DE',
-      w1: this._syncType,
-      w2: this.oauth2AccessToken,
-      w3: this.theme
-    };
-    localStorage.setItem('webData', JSON.stringify(storage));
-  }
-
-  async requestJson(url: string, params?: { method?: string, options?: any, body?: any, showError?: boolean, asJson?: boolean, timeout?: number }) {
-    return this.request(url, params).then(response => {
-      return response?.body;
-    });
-  }
-
-  async request(url: string, params?: { method?: string, options?: any, body?: any, showError?: boolean, asJson?: boolean, timeout?: number }) {
-    params ??= {};
-    params.method ??= 'get';
-    params.showError ??= true;
-    params.asJson ??= false;
-    params.timeout ??= 1000;
-    let response;
-    const req = new HttpRequest(params.method, url,
-      null,
-      params.options);
-    try {
-      switch (params.method.toLowerCase()) {
-        case 'post':
-          response = await lastValueFrom(this.http.post(url, params.body, params.options).pipe(timeout({
-            each: params.timeout,
-            with: () => throwError(() => new CustomTimeoutError())
-          })));
-          break;
-        default:
-          response = await lastValueFrom(this.http.request(req).pipe(timeout({
-            each: params.timeout,
-            with: () => throwError(() => new CustomTimeoutError())
-          })));
-          break;
-      }
-    } catch (ex: any) {
-      if (ex instanceof CustomTimeoutError) {
-        response = $localize`There was no answer within ${params.timeout / 1000} seconds at ${url}`;
-      } else if (ex?.messge != null) {
-        response = ex.message;
-      } else {
-        response = ex;
-      }
-    }
-    return params.asJson ? response.body : response;
-  }
-
-  baseThemeName(name: string): string {
-    if (Utils.isEmpty(name)) {
-      if (Utils.now.getMonth() === 11) {
-        return 'xmas';
-      } else {
-        return 'standard';
-      }
-    }
-    return name;
-  }
-
-  getDefaultCards(): any[] {
+  get defaultCards(): any[] {
     return [{
       'q': '<p><span style="color:rgb(0, 0, 0);">Wie groß ist die </span><strong><span style="color:rgb(0, 0, 0);">Masse</span></strong><span style="color:rgb(0, 0, 0);"> der </span><strong><span style="color:rgb(0, 0, 0);">Erde</span></strong><span style="color:rgb(0, 0, 0);">?</span></p>',
       'a': '<p><strong><span style="color:rgb(0, 0, 0);">5,97 x 10^21 t</span></strong><span style="color:rgb(0, 0, 0);"><br>bzw. 5,97 x 10^24 kg</span></p>',
-      'c': ['Standard']
+      'c': ['Standard'],
+      'cb': 'rgba(208,67,67,1)',
+      'cf': 'black'
     }, {
       'q': '<p>Wie groß ist die <strong>Masse </strong>der <strong>Sonne</strong>?</p>',
       'a': '<p><strong>1,98 x 10^27 t</strong><br>bzw. 1,98 x 10^30 kg</p>',
-      'c': ['Standard']
+      'c': ['Standard'],
+      'cb': 'rgba(255,255,0,1)',
+      'cf': 'rgba(0,0,0,1)'
     }, {
       'q': '<p>Wie groß ist der <strong>Durchmesser</strong> der Erde?</p>',
       'a': '<p><strong>12.700 km</strong></p>',
-      'c': ['Standard']
+      'c': ['Standard'],
+      'cb': 'rgba(0,0,255,1)',
+      'cf': 'rgba(255,255,255,1)'
     }, {
       'q': '<p>Wie groß ist der <strong>Durchmesser </strong>der <strong>Sonne</strong>?</p>',
       'a': '<p><strong>1.392.700 km</strong></p>',
-      'c': ['Standard']
+      'c': ['Standard'],
+      'cb': 'rgba(255,0,0,1)',
+      'cf': 'black'
     }, {
       'q': '<p>Wie groß ist der <strong>Durchmesser </strong>von <strong>Jupiter</strong>?</p>',
       'a': '<p><strong>140.000 km</strong></p>',
@@ -422,6 +292,145 @@ export class GlobalsService {
       'a': '<p><strong>Marianengraben</strong><br>11 km</p>',
       'c': ['Standard']
     }, {'q': '<p><strong>Höchster </strong>Punkt der <strong>Erde</strong>?</p>', 'a': '<p><strong>Mt. Everest</strong><br>8,8 km</p>', 'c': ['Standard']}];
+  }
+
+  async loadSharedData() {
+    let storage: any = {};
+    try {
+      storage = JSON.parse(localStorage.getItem('sharedData')) ?? {};
+      this._cardList = [];
+      const list = storage.s2 ?? [];
+      if (list != null) {
+        try {
+          for (const entry of list) {
+            this._cardList.push(CardData.fromJson(entry));
+          }
+        } catch (ex) {
+          Log.devError(ex, `error when loading shared data (cardlist)`);
+        }
+      } else {
+        //          saveStorage("mu", null);
+      }
+      this._cardConfig = new CardConfig();
+      this._cardConfig.fillFromJson(storage.s3);
+      this._cardConfig.extractCategories(this._cardList);
+    } catch {
+    }
+    let syncData: any = await this.sync.downloadFile(this.env.settingsFilename);
+    if (syncData != null) {
+      try {
+        if (+syncData.s0 > +storage.s0) {
+          storage = syncData;
+        }
+      } catch {
+      }
+    }
+
+    this.storageVersion = storage.s1;
+    // validate values
+  }
+
+  saveSharedData(): void {
+    const cardList = [];
+    for (let i = 0; i < this._cardList.length; i++) {
+      cardList.push(this._cardList[i].asJson);
+    }
+
+    const storage: any = {
+      s0: Date.now(),
+      s1: this.version,
+      s2: cardList,
+      s3: this.cardConfig.asJson
+    };
+    const data = JSON.stringify(storage);
+    localStorage.setItem('sharedData', data);
+    if (this.sync.hasSync) {
+      this.sync.uploadFile(this.env.settingsFilename, data);
+    }
+  }
+
+  loadWebData(): void {
+    let storage: any = {};
+    try {
+      storage = JSON.parse(localStorage.getItem('webData')) ?? {};
+    } catch {
+    }
+
+    const code = storage.w0 ?? 'en-GB';
+    this.language = this.ls.languageList.find((lang) => lang.code === code);
+    this._syncType = storage.w1 ?? oauth2SyncType.none;
+    this.oauth2AccessToken = storage.w2;
+    this.theme = storage.w3 ?? 'standard';
+
+    // validate values
+    if (this.oauth2AccessToken == null) {
+      this._syncType = oauth2SyncType.none;
+    }
+    this.isConfigured = true;
+  }
+
+  saveWebData(): void {
+    const storage: any = {
+      w0: this.language.code ?? 'de_DE',
+      w1: this._syncType,
+      w2: this.oauth2AccessToken,
+      w3: this.theme
+    };
+    localStorage.setItem('webData', JSON.stringify(storage));
+  }
+
+  async requestJson(url: string, params?: { method?: string, options?: any, body?: any, showError?: boolean, asJson?: boolean, timeout?: number }) {
+    return this.request(url, params).then(response => {
+      return response?.body;
+    });
+  }
+
+  async request(url: string, params?: { method?: string, options?: any, body?: any, showError?: boolean, asJson?: boolean, timeout?: number }) {
+    params ??= {};
+    params.method ??= 'get';
+    params.showError ??= true;
+    params.asJson ??= false;
+    params.timeout ??= 1000;
+    let response;
+    const req = new HttpRequest(params.method, url,
+      null,
+      params.options);
+    try {
+      switch (params.method.toLowerCase()) {
+        case 'post':
+          response = await lastValueFrom(this.http.post(url, params.body, params.options).pipe(timeout({
+            each: params.timeout,
+            with: () => throwError(() => new CustomTimeoutError())
+          })));
+          break;
+        default:
+          response = await lastValueFrom(this.http.request(req).pipe(timeout({
+            each: params.timeout,
+            with: () => throwError(() => new CustomTimeoutError())
+          })));
+          break;
+      }
+    } catch (ex: any) {
+      if (ex instanceof CustomTimeoutError) {
+        response = $localize`There was no answer within ${params.timeout / 1000} seconds at ${url}`;
+      } else if (ex?.messge != null) {
+        response = ex.message;
+      } else {
+        response = ex;
+      }
+    }
+    return params.asJson ? response.body : response;
+  }
+
+  baseThemeName(name: string): string {
+    if (Utils.isEmpty(name)) {
+      if (Utils.now.getMonth() === 11) {
+        return 'xmas';
+      } else {
+        return 'standard';
+      }
+    }
+    return name;
   }
 
   private may(key: string): boolean {

@@ -58,4 +58,12 @@ export class MainComponent {
     GLOBALS.saveWebData();
     location.reload();
   }
+
+  classForLanguage(item: LangData): string[] {
+    const ret: string[] = ['language'];
+    if (GLOBALS.language?.code === item.code) {
+      ret.push('current');
+    }
+    return ret;
+  }
 }
