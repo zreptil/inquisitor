@@ -6,6 +6,8 @@ import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {ImpressumComponent} from '@/components/impressum/impressum.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {CloseButtonData} from '@/controls/close-button/close-button-data';
+import {LanguageService} from '@/_services/language.service';
+import {LangData} from '@/_model/lang-data';
 
 @Component({
   selector: 'app-main',
@@ -20,6 +22,7 @@ export class MainComponent {
 
   constructor(public globals: GlobalsService,
               public ms: MessageService,
+              public ls: LanguageService,
               public sync: SyncService) {
   }
 
@@ -47,5 +50,12 @@ export class MainComponent {
         this.ms.showPopup(WelcomeComponent, 'welcome', {});
         break;
     }
+  }
+
+  clickLanguage(value: LangData) {
+    console.log(value);
+    GLOBALS.language = value;
+    GLOBALS.saveWebData();
+    location.reload();
   }
 }

@@ -23,11 +23,11 @@ export class CrowdinData {
 
   get languageBadgeUrl(): string {
     return `https://img.shields.io/badge/dynamic/json?color=rgb(0,128,0)&label=${this.langName}`
-      + `&style=plastic&logo=crowdin&query=%24.progress.${this.langIdx}.data.approvalProgress`
+      + `&style=plastic&logo=crowdin&query=%24.progress[?(@.data.languageId==%27${this.langSrc}%27)].data.approvalProgress`
       + `&url=https%3A%2F%2Fbadges.awesome-crowdin.com%2Fstats-${this.statsCode}.json`;
   }
 
   static factoryEnglish(): CrowdinData {
-    return new CrowdinData('lisa', 39, 'en', '13600041-555863');
+    return new CrowdinData('inquisitor', 42, 'de', '13600041-657362');
   }
 }

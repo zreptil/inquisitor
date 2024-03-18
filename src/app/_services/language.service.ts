@@ -15,7 +15,7 @@ export class LanguageService {
 
   languageList: LangData[] = [
     new LangData('en-GB', `English (GB)`, 'gb', null, 0),
-    new LangData('en-US', `English (USA)`, 'us', null, 1),
+    // new LangData('en-US', `English (USA)`, 'us', null, 1),
     new LangData('de-DE', `Deutsch`, 'de', CrowdinData.factoryEnglish(), 2),
   ];
 

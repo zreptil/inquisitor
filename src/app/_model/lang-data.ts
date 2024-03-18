@@ -33,6 +33,6 @@ export class LangData {
   }
 
   get imgPath(): String {
-    return `assets/img/lang-${this.img}.png`;
+    return `assets/images/lang-${this.img}.png`;
   }
 }
