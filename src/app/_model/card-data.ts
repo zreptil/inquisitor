@@ -2,15 +2,15 @@ import {BaseData} from '@/_model/base-data';
 
 export class CardData extends BaseData {
   type: string;
-  question: string;
-  answer: string;
+  front: string;
+  back: string;
   categories: string[] = [];
 
   override get asJson(): any {
     return {
       t: this.type,
-      q: this.question,
-      a: this.answer,
+      q: this.front,
+      a: this.back,
       c: this.categories
     };
   }
@@ -22,10 +22,9 @@ export class CardData extends BaseData {
   }
 
   override _fillFromJson(json: any, def?: any): void {
-    console.log('json', json);
     this.type = json.t;
-    this.question = json.q;
-    this.answer = json.a;
+    this.front = json.q;
+    this.back = json.a;
     this.categories = json.c ?? [];
   }
 

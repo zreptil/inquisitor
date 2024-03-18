@@ -1,17 +1,29 @@
 <div cardview>
-  <button (click)="clickPrev($event)" *ngIf="currentCard!=null" [disabled]="!hasPrevCard" mat-button nav>
-    <mat-icon>arrow_left</mat-icon>
-  </button>
-
-  <app-card *ngIf="currentCard!=null" [cardIdx]="cardIdx"></app-card>
-  <div *ngIf="currentCard==null" i18n>
-    By clicking the button in the right bottom corner a new card will be created.
+  <div *ngIf="currentCard!=null" scene>
+    <div [style]="styleForGroup()" cardGroup>
+      <app-card *ngFor="let card of globals.cardList; let idx = index"
+                [active]="cardIdx===idx"
+                [cardIdx]="idx"
+                [style]="styleForCard(idx)">
+      </app-card>
+    </div>
   </div>
 
-  <button (click)="clickNext($event)" *ngIf="currentCard!=null" [disabled]="!hasNextCard" mat-button nav>
+  <div *ngIf="currentCard==null" i18n>
+    By clicking the button in the right bottom corner a new card will be created.<br>
+    By clicking the button in the left bottom corner cards with default values will be created.
+  </div>
+  <button (click)="clickPrev($event)" *ngIf="currentCard!=null" [disabled]="!hasPrevCard" class="nav prev" mat-button>
+    <mat-icon>arrow_left</mat-icon>
+  </button>
+  <button (click)="clickNext($event)" *ngIf="currentCard!=null" [disabled]="!hasNextCard" class="nav next" mat-button>
     <mat-icon>arrow_right</mat-icon>
   </button>
 </div>
+<div *ngIf="currentCard != null" count>{{ cardIdx + 1 }} / {{ globals.cardList.length }}</div>
+<button (click)="clickDefault()" defBtn mat-fab>
+  <mat-icon>restart_alt</mat-icon>
+</button>
 <button (click)="addCard()" addBtn mat-fab>
   <mat-icon>add</mat-icon>
 </button>

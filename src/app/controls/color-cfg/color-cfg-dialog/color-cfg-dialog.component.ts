@@ -43,7 +43,7 @@ export class ColorCfgDialogComponent implements AfterViewInit {
 
   get dialogTitle(): string {
     const ret = this.mapEntry(this.dlgData?.colorKey, true)?.title;
-    return ret == null ? $localize`Farbanpassungen` : $localize`Farben für ` + ret;
+    return ret == null ? $localize`Colorchanges` : $localize`Colors for ` + ret;
   }
 
   _listThemeKeys: string[];
@@ -61,7 +61,7 @@ export class ColorCfgDialogComponent implements AfterViewInit {
       if (!hasChanges) {
         return of(true);
       }
-      return this.ms.confirm($localize`Sollen die Farbänderungen verworfen werden?`,
+      return this.ms.confirm($localize`Should the colorchanges be discarded?`,
         new DialogParams({noClose: true}))
         .pipe(map(
           result => {

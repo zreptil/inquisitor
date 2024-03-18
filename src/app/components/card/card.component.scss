@@ -5,6 +5,7 @@
 .cardBox {
   width: 100%;
   height: 100%;
+  cursor: pointer;
   transform-style: preserve-3d;
 
   mat-card {
@@ -29,7 +30,6 @@ mat-card {
   width: 100%;
   height: 100%;
   position: relative;
-  cursor: pointer;
   border-radius: 1em;
   max-height: 100%;
 
@@ -41,12 +41,6 @@ mat-card {
   mat-card-title-group {
     display: flex;
     flex-flow: column;
-
-    mat-card-actions {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
   }
 
   mat-card-content[view] {
@@ -60,6 +54,15 @@ mat-card {
     }
   }
 
+  ::ng-deep code {
+    font-family: monospace, monospace;
+    background-color: #eee;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    font-size: 75%;
+    display: block;
+  }
+  
   mat-card-content {
     display: flex;
     flex: 1;
@@ -81,7 +84,22 @@ mat-card {
     }
   }
 
-  mat-card-actions {
+  mat-card-actions[edit] {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+  }
+
+  mat-card-actions[top] {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  mat-card-actions[bottom] {
+    position: absolute;
+    right: 0;
+    bottom: 0;
     justify-content: flex-end;
   }
 }

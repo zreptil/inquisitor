@@ -52,7 +52,7 @@ export class GlobalsService {
     settings: $localize`Einstellungen`,
     dsgvo: $localize`Datenschutzerklärung`,
     help: $localize`Information`,
-    impressum: $localize`Impressum`,
+    impressum: $localize`Imprint`,
     welcome: $localize`Welcome to the Inquisition`,
     whatsnew: $localize`Once upon a time...`
   };
@@ -224,7 +224,6 @@ export class GlobalsService {
 
     this.storageVersion = storage.s1;
     // validate values
-    console.log('list', this._cardList);
   }
 
   saveSharedData(): void {
@@ -327,6 +326,102 @@ export class GlobalsService {
       }
     }
     return name;
+  }
+
+  getDefaultCards(): any[] {
+    return [{
+      'q': '<p><span style="color:rgb(0, 0, 0);">Wie groß ist die </span><strong><span style="color:rgb(0, 0, 0);">Masse</span></strong><span style="color:rgb(0, 0, 0);"> der </span><strong><span style="color:rgb(0, 0, 0);">Erde</span></strong><span style="color:rgb(0, 0, 0);">?</span></p>',
+      'a': '<p><strong><span style="color:rgb(0, 0, 0);">5,97 x 10^21 t</span></strong><span style="color:rgb(0, 0, 0);"><br>bzw. 5,97 x 10^24 kg</span></p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie groß ist die <strong>Masse </strong>der <strong>Sonne</strong>?</p>',
+      'a': '<p><strong>1,98 x 10^27 t</strong><br>bzw. 1,98 x 10^30 kg</p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie groß ist der <strong>Durchmesser</strong> der Erde?</p>',
+      'a': '<p><strong>12.700 km</strong></p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie groß ist der <strong>Durchmesser </strong>der <strong>Sonne</strong>?</p>',
+      'a': '<p><strong>1.392.700 km</strong></p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie groß ist der <strong>Durchmesser </strong>von <strong>Jupiter</strong>?</p>',
+      'a': '<p><strong>140.000 km</strong></p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie groß ist die <strong>Masse </strong>von <strong>Jupiter</strong>?</p>',
+      'a': '<p><strong>1,9 x 10^24 t</strong><br>bzw. 1,9 x 10^27 kg</p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie groß ist der <strong>Umfang</strong> der <strong>Erde</strong>?</p>',
+      'a': '<p><strong>39.898 km</strong></p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie groß ist der <strong>Umfang </strong>der <strong>Sonne</strong>?</p>',
+      'a': '<p><strong>4.375.296 km</strong></p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Was ist eine <strong>Astronomische Einheit</strong> (AE)?</p>',
+      'a': '<p>Der mittlere Abstand von der Erde zur Sonne<br>(149.600.000 km)</p>',
+      'c': ['Standard']
+    }, {'q': '<p>Wie groß ist der <strong>Neigungswinkel</strong> der Erdachse?</p>', 'a': '<p><strong>23,4 Grad</strong></p>', 'c': ['Standard']}, {
+      'q': '<p>Wie schnell dreht sich die Erde?</p>',
+      'a': '<p><strong>1.670 km/h (Äquator)</strong><br>1.000 km/h (Deutschland)<br>15 Grad/Std. (Winkelgeschwindigkeit)</p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie <strong>schnell </strong>bewegt sich die <strong>Erde </strong>um die <strong>Sonne</strong>?</p>',
+      'a': '<p><strong>108.000 km/h</strong></p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie <strong>schnell </strong>bewegt sich die Sonne um das <strong>Zentrum </strong>der <strong>Milchstraße</strong>?</p>',
+      'a': '<p><strong>810.000 km/h</strong></p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie <strong>schnell</strong> bewegt sich der <strong>Mond </strong>um die<strong> Erde</strong>?</p>',
+      'a': '<p><strong>3.672 km/h</strong></p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie hoch ist die <strong>Lichtgeschwindigkeit</strong>?</p>',
+      'a': '<p><strong>299.792.458 m/s</strong><br>299.792 km/s<br>1,08 Mrd. km/h</p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Welcher <strong>Stern </strong>ist der <strong>Erde </strong>am <strong>nächsten</strong>?</p>',
+      'a': '<p><strong>Proxima Centauri</strong><br>4,24 Lichtjahre</p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie weit ist der <strong>nächste Stern</strong> von der <strong>Erde </strong>entfernt?</p>',
+      'a': '<p><strong>4,24 Lichtjahre</strong><br>Proxima Centauri</p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Welche <strong>Galaxie </strong>ist der <strong>Erde </strong>am nächsten?</p>',
+      'a': '<p><strong>Andromeda-Galaxie</strong><br>2,5 Mio. Lichtjahre</p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie weit ist die nächste <strong>Galaxie </strong>von der <strong>Erde </strong>entfernt?</p>',
+      'a': '<p><strong>2,5 Mio. Lichtjahre</strong><br>Andromeda-Galaxie</p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie schnell bewegt sich die <strong>Milchstraße </strong>durch das <strong>Universum</strong>?</p>',
+      'a': '<p><strong>2 Mio. km/h</strong></p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie groß ist der <strong>Durchmesser </strong>der <strong>Milchstraße</strong>?</p>',
+      'a': '<p><strong>105.000 Lichtjahre</strong></p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie <strong>dick </strong>ist die Scheibe der <strong>Milchstraße</strong>?</p>',
+      'a': '<p><strong>3.000 Lichtjahre</strong></p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p>Wie <strong>groß </strong>ist das <strong>Universum</strong>?</p>',
+      'a': '<p><strong>90 - 100 Mrd. Lichtjahre</strong></p>',
+      'c': ['Standard']
+    }, {
+      'q': '<p><strong>Tiefster </strong>Punkt der <strong>Erde</strong>?</p>',
+      'a': '<p><strong>Marianengraben</strong><br>11 km</p>',
+      'c': ['Standard']
+    }, {'q': '<p><strong>Höchster </strong>Punkt der <strong>Erde</strong>?</p>', 'a': '<p><strong>Mt. Everest</strong><br>8,8 km</p>', 'c': ['Standard']}];
   }
 
   private may(key: string): boolean {

@@ -1,95 +1,106 @@
-<ng-container *ngIf="isMode('view')">
-  <div (click)="turnCard()" [@flipState]="cardFace" class="cardBox">
-    <ng-container [ngTemplateOutletContext]="{cardClass:'front'}"
-                  [ngTemplateOutlet]="tplCard"></ng-container>
-    <ng-container [ngTemplateOutletContext]="{cardClass:'back'}"
-                  [ngTemplateOutlet]="tplCard"></ng-container>
-  </div>
-</ng-container>
-<form *ngIf="isMode('edit')" [formGroup]="form">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title-group>
-        <mat-card-title>{{ dataForEdit.t }}</mat-card-title>
-        <mat-card-actions>
-          <button (click)="clickCancel($event)" mat-icon-button>
-            <mat-icon>close</mat-icon>
+<ng-container *ngIf="active; else elseBlock">
+  <ng-container *ngIf="isMode('view')">
+    <div (click)="turnCard()" [@flipState]="cardFace" class="cardBox">
+      <ng-container [ngTemplateOutletContext]="{cardClass:'front'}"
+                    [ngTemplateOutlet]="tplCard"></ng-container>
+      <ng-container [ngTemplateOutletContext]="{cardClass:'back'}"
+                    [ngTemplateOutlet]="tplCard"></ng-container>
+    </div>
+  </ng-container>
+  <form *ngIf="isMode('edit')" [formGroup]="form">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title-group>
+          <mat-card-title>
+            <mat-button-toggle-group (change)="onCardFaceChange($event)" [formGroup]="form" formControlName="cardFace">
+              <mat-button-toggle value="front">
+                <mat-icon>question_mark</mat-icon>
+                <mat-label i18n>Question</mat-label>
+              </mat-button-toggle>
+              <mat-button-toggle value="back">
+                <mat-icon>priority_high</mat-icon>
+                <mat-label i18n>Answer</mat-label>
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </mat-card-title>
+          <mat-card-actions top>
+            <button (click)="clickCancel($event)" mat-icon-button>
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card-title-group>
+      </mat-card-header>
+      <mat-card-content>
+        <div categories>
+          <!--
+                  <mat-form-field class="example-form-field">
+                    <mat-label>Categories</mat-label>
+          -->
+          <!--mat-chip-grid #chipGrid aria-label="Enter categories">
+            @for (category of currentCard.categories; track category) {
+              <mat-chip-row (removed)="removeCategory(category)">
+                {{ category }}
+                <button matChipRemove aria-label="'remove ' + keyword">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            }
+          </mat-chip-grid -->
+          <!-- mat-select [(ngModel)]="currentCard.categories" multiple>
+            @for (option of cardConfig.categories; track option) {
+              <mat-option [value]="option">
+                {{ option }}
+              </mat-option>
+            }
+          </mat-select -->
+          <!--
+                  </mat-form-field>
+          -->
+          <button (click)="addCategory($event)" mat-icon-button>
+            <mat-icon>add</mat-icon>
           </button>
-        </mat-card-actions>
-      </mat-card-title-group>
-    </mat-card-header>
-    <mat-card-content>
-      <div categories>
-        <!--
-                <mat-form-field class="example-form-field">
-                  <mat-label>Categories</mat-label>
-        -->
-        <!--mat-chip-grid #chipGrid aria-label="Enter categories">
-          @for (category of currentCard.categories; track category) {
-            <mat-chip-row (removed)="removeCategory(category)">
-              {{ category }}
-              <button matChipRemove aria-label="'remove ' + keyword">
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip-row>
-          }
-        </mat-chip-grid -->
-        <!-- mat-select [(ngModel)]="currentCard.categories" multiple>
-          @for (option of cardConfig.categories; track option) {
-            <mat-option [value]="option">
-              {{ option }}
-            </mat-option>
-          }
-        </mat-select -->
-        <!--
-                </mat-form-field>
-        -->
-        <button (click)="addCategory($event)" mat-icon-button>
-          <mat-icon>add</mat-icon>
+        </div>
+        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+        <ngx-editor [editor]="editor" [placeholder]="dataForEdit.p" formControlName="edit"></ngx-editor>
+      </mat-card-content>
+      <mat-card-actions edit>
+        <div></div>
+        <div>
+          <button (click)="clickSave($event)" mat-button>
+            <mat-label i18n>Save</mat-label>
+            <mat-icon>save</mat-icon>
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+  <ng-template #tplCard let-cardClass="cardClass">
+    <mat-card [class]="cardClass">
+      <mat-card-actions top>
+        <button (click)="clickEdit($event)" mat-icon-button>
+          <mat-icon>edit</mat-icon>
         </button>
-      </div>
-      <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
-      <ngx-editor [editor]="editor" [formControlName]="dataForEdit.n" placeholder="Question"></ngx-editor>
-      <!-- mat-form-field>
-        <mat-label i18n>Question</mat-label>
-        <textarea [autofocus]="cardFace==='front'" matInput></textarea>
-      </mat-form-field -->
-      <!-- mat-form-field>
-        <mat-label i18n>Answer</mat-label>
-        <textarea [(ngModel)]="currentCard.answer" [autofocus]="cardFace==='back'" matInput></textarea>
-      </mat-form-field -->
-    </mat-card-content>
-    <mat-card-actions>
-      <button (click)="clickSave($event)" mat-button>
-        <mat-label i18n>Save</mat-label>
-        <mat-icon>save</mat-icon>
-      </button>
-    </mat-card-actions>
-  </mat-card>
-</form>
-<ng-template #tplCard let-cardClass="cardClass">
-  <mat-card [class]="cardClass">
-    <mat-card-header>
-      <mat-card-title-group>
-        <mat-card-actions>
-          <button (click)="clickEdit($event)" mat-icon-button>
-            <mat-icon>edit</mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card-title-group>
-    </mat-card-header>
-    <!-- mat-card-content view>
-      @for (text of cardText(cardClass)?.split('\n') ?? []; track text) {
-        <div>{{ text }}</div>
-      }
-    </mat-card-content -->
+      </mat-card-actions>
+      <!-- mat-card-content view>
+        @for (text of cardText(cardClass)?.split('\n') ?? []; track text) {
+          <div>{{ text }}</div>
+        }
+      </mat-card-content -->
+      <mat-card-content view>
+        <div [innerHTML]="cardText(cardClass)" content></div>
+      </mat-card-content>
+      <mat-card-actions bottom>
+        <button (click)="clickDelete($event)" mat-icon-button>
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </ng-template>
+</ng-container>
+<ng-template #elseBlock>
+  <mat-card [class]="'front'">
     <mat-card-content view>
-      <div [innerHTML]="cardText(cardClass)" content></div>
+      <div [innerHTML]="cardText('front')" content></div>
     </mat-card-content>
-    <mat-card-actions>
-      <button (click)="clickDelete($event)" mat-icon-button>
-        <mat-icon>delete</mat-icon>
-      </button>
-    </mat-card-actions>
   </mat-card>
 </ng-template>

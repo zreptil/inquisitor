@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {CardData} from '@/_model/card-data';
 import {GLOBALS} from '@/_services/globals.service';
@@ -15,7 +15,7 @@ import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
   animations: [
     trigger('flipState', [
       state('back', style({
-        transform: 'rotateX(179deg)'
+        transform: 'rotateX(180deg)'
       })),
       state('front', style({
         transform: 'rotateX(0)'
@@ -28,23 +28,26 @@ import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 export class CardComponent implements OnInit, OnDestroy {
   @Input()
   cardIdx: number;
+  @Input()
+  active = false;
   mode = 'view';
+  @Input()
   cardFace = 'front';
   orgCard: any;
   editor: Editor;
   toolbar: Toolbar = [
+    [{heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']}],
     ['bold', 'italic'],
     ['underline', 'strike'],
-    ['code', 'blockquote'],
-    ['ordered_list', 'bullet_list'],
-    [{heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']}],
-    ['link', 'image'],
     ['text_color', 'background_color'],
+    // ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    ['link', 'image'],
     ['align_left', 'align_center', 'align_right', 'align_justify'],
   ];
   form = new FormGroup({
-    question: new FormControl('', Validators.required()),
-    answer: new FormControl('', Validators.required()),
+    edit: new FormControl('', Validators.required()),
+    cardFace: new FormControl('front', Validators.required()),
   });
 
   constructor(public ms: MessageService,
@@ -62,9 +65,9 @@ export class CardComponent implements OnInit, OnDestroy {
   // make sure to destory the editor
   get dataForEdit(): any {
     if (this.cardFace === 'front') {
-      return {t: $localize`Question`, n: 'question'};
+      return {t: $localize`Question`, n: 'front', p: $localize`Question`};
     }
-    return {t: $localize`Answer`, n: 'answer'};
+    return {t: $localize`Answer`, n: 'back', p: $localize`Answer`};
   }
 
   ngOnInit(): void {
@@ -80,7 +83,9 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   clickSave(evt: MouseEvent) {
-    this.currentCard.question = this.form.controls.question.value;
+    if (this.currentCard != null) {
+      (this.currentCard as any)[this.cardFace] = this.form.controls.edit.value;
+    }
     evt.stopPropagation();
     this.mode = 'view';
     GLOBALS.saveSharedData();
@@ -88,16 +93,37 @@ export class CardComponent implements OnInit, OnDestroy {
 
   clickCancel(evt: MouseEvent) {
     evt.stopPropagation();
-    this.currentCard?.fillFromJson(this.orgCard);
-    this.mode = 'view';
+    (this.currentCard as any)[this.cardFace] = this.form.controls.edit.value;
+    if (this.currentCard.asString !== JSON.stringify(this.orgCard)) {
+      this.ms.confirm($localize`Do you really want to discard the changes?`)
+        .subscribe(result => {
+          if (result?.btn === DialogResultButton.yes) {
+            this.currentCard?.fillFromJson(this.orgCard);
+            this.mode = 'view';
+          }
+        });
+    } else {
+      this.currentCard?.fillFromJson(this.orgCard);
+      this.mode = 'view';
+    }
   }
 
   clickEdit(evt: MouseEvent) {
     evt?.stopPropagation();
-    this.form.controls.question.setValue(this.currentCard.question);
-    this.form.controls.answer.setValue(this.currentCard.answer);
+    this.form.controls.edit.setValue((this.currentCard as any)?.[this.cardFace]);
+    this.form.controls.cardFace.setValue(this.cardFace);
     this.orgCard = this.currentCard.asJson;
     this.mode = 'edit';
+    this.activateEdit();
+  }
+
+  activateEdit(): void {
+    setTimeout(() => {
+      this.editor.commands
+        .focus('start')
+        .scrollIntoView()
+        .exec();
+    });
   }
 
   turnCard() {
@@ -135,9 +161,9 @@ export class CardComponent implements OnInit, OnDestroy {
   cardText(cardClass: string): SafeHtml {
     switch (cardClass) {
       case 'front':
-        return this.sanitizer.bypassSecurityTrustHtml(this.currentCard?.question);
+        return this.sanitizer.bypassSecurityTrustHtml(this.currentCard?.front);
       case 'back':
-        return this.sanitizer.bypassSecurityTrustHtml(this.currentCard?.answer);
+        return this.sanitizer.bypassSecurityTrustHtml(this.currentCard?.back);
     }
     return '???';
   }
@@ -157,5 +183,27 @@ export class CardComponent implements OnInit, OnDestroy {
         GLOBALS.cardList.splice(this.cardIdx, 1);
       }
     });
+  }
+
+  clickEditChange(evt: MouseEvent, type: string) {
+
+  }
+
+  onCardFaceChange(evt: any) {
+    (this.currentCard as any)[this.cardFace] = this.form.controls.edit.value;
+    this.cardFace = this.form.controls.cardFace.value;
+    this.form.controls.edit.setValue((this.currentCard as any)[this.cardFace]);
+    this.activateEdit();
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  onKeyUp(event: KeyboardEvent): void {
+    switch (event.code) {
+      case 'Space':
+      case 'ArrowUp':
+      case 'ArrowDown':
+        this.turnCard();
+        break;
+    }
   }
 }

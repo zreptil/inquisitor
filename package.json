@@ -38,6 +38,7 @@
     "pdfmake": "^0.2.7",
     "rxjs": "~7.8.0",
     "sha1": "^1.1.1",
+    "swiper-src": "github:nolimits4web/swiper",
     "tslib": "^2.3.0",
     "utf8-encoding": "^0.1.2",
     "xliff": "^6.1.0",
