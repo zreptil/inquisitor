@@ -40,8 +40,11 @@ export class ColorPickerDialog implements AfterViewInit {
     if (this.savedColors.length < 1) {
       this.savedColors.push(new ColorData([0, 0, 0]));
     }
-    while (this.savedColors.length > ColorPickerDialog._maxSavedColors) {
+    while (this.savedColors.length >= ColorPickerDialog._maxSavedColors) {
       this.savedColors.splice(0, 1);
+    }
+    if (data.colorList?.length > 0 && data.colorList[0].themeKey == null) {
+      this.savedColors.push(data.colorList[0]);
     }
     this.currSavedIdx = ColorPickerDialog._savedColors.length - 1;
     this.updateTitle();
@@ -206,8 +209,11 @@ export class ColorPickerDialog implements AfterViewInit {
   colorClick(event: MouseEvent, color: ColorData, idx: number) {
     event.stopPropagation();
     if (this.currSavedIdx !== idx) {
+      console.log('HIER', Utils.jsonize(color));
       this.data.colorList[this.data.colorIdx].update(color.value, color.opacity);
+      console.log('Und nun', Utils.jsonize(this.data.colorList[this.data.colorIdx]));
       this.triggerValue = [...color.value, color.opacity];
+      console.log('Und jetzt', Utils.jsonize(this.data));
       this.data.colorChange?.emit(this.data);
     } else {
       this.colorAddClick(color);

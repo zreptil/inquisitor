@@ -67,6 +67,7 @@ mat-card {
   mat-card-title-group {
     display: flex;
     flex-flow: column;
+    margin-bottom: 1em;
   }
 
   mat-card-content[view] {
@@ -101,7 +102,7 @@ mat-card {
       left: 50%;
       transform: translateX(-50%);
       width: 80%;
-      color: rgba(0, 0, 0, 0.5);
+      opacity: 0.7;
     }
 
     [categories] {
@@ -145,6 +146,7 @@ mat-card {
     bottom: 0;
     width: 100%;
     justify-content: space-between;
+    flex-wrap: wrap;
 
     [correct] {
       background-color: lime;
@@ -161,4 +163,14 @@ mat-card {
       color: white;
     }
   }
+}
+
+mat-chip-row {
+  ::ng-deep .mat-mdc-chip-action-label {
+    line-height: 0;
+  }
+}
+
+.mat-mdc-chip-remove {
+  opacity: 0.9;
 }

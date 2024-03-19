@@ -429,7 +429,7 @@
         <source>There was no answer within <x id="PH" equiv-text="params.timeout / 1000"/> seconds at <x id="PH_1" equiv-text="url"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
-          <context context-type="linenumber">416</context>
+          <context context-type="linenumber">408</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7351700212933699939" datatype="html">
@@ -736,11 +736,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">85</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">85</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4669216542007588508" datatype="html">
@@ -755,11 +755,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">87</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">87</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2129642223825976410" datatype="html">
@@ -769,15 +769,29 @@
           <context context-type="linenumber">114</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="546766753072101168" datatype="html">
+        <source>Labels</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/card/card.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3955868613858648955" datatype="html">
+        <source>Available</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/card/card.component.html</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="3768927257183755959" datatype="html">
         <source>Save</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.html</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">103</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">160</context>
+          <context context-type="linenumber">210</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component.html</context>
@@ -792,49 +806,56 @@
         <source>Correct</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.html</context>
-          <context context-type="linenumber">100</context>
+          <context context-type="linenumber">128</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2748884846672363037" datatype="html">
         <source>Wrong</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.html</context>
-          <context context-type="linenumber">104</context>
+          <context context-type="linenumber">132</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1588636432050016093" datatype="html">
         <source>Unsteady</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.html</context>
-          <context context-type="linenumber">108</context>
+          <context context-type="linenumber">136</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4762357517538202618" datatype="html">
         <source>Do you really want to discard the changes?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">117</context>
+          <context context-type="linenumber">161</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="5118252912248143117" datatype="html">
-        <source>Enter new category</source>
+      <trans-unit id="1196952613856255833" datatype="html">
+        <source>Enter new Label</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">155</context>
+          <context context-type="linenumber">205</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2159130950882492111" datatype="html">
         <source>Cancel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">159</context>
+          <context context-type="linenumber">209</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8911525952268359975" datatype="html">
+        <source>Name of Label</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
+          <context context-type="linenumber">212</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2134118752304088928" datatype="html">
         <source>This will delete the card. Are you sure?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">200</context>
+          <context context-type="linenumber">260</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2724055831234181057" datatype="html">
@@ -886,7 +907,7 @@
         <source>Colorselection</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/controls/color-picker/color-picker-dialog/color-picker-dialog.ts</context>
-          <context context-type="linenumber">147</context>
+          <context context-type="linenumber">150</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3054799567417110086" datatype="html">

@@ -1,3 +1,10 @@
+<mat-chip-listbox (change)="onChangeLabels($event)" multiple>
+  @for (label of configLabels; track label) {
+    <mat-chip-option [style]="styleForChip(label)">
+      {{ label }}
+    </mat-chip-option>
+  }
+</mat-chip-listbox>
 <div cardview>
   <div *ngIf="currentCard!=null" scene>
     <div [style]="styleForGroup()" cardGroup>
@@ -10,8 +17,8 @@
   </div>
 
   <div *ngIf="currentCard==null" i18n>
-    By clicking the button in the right bottom corner a new card will be created.<br>
-    By clicking the button in the left bottom corner cards with default values will be created.
+    <div *ngIf="globals.filterCards == null">By clicking the button in the right bottom corner a new card will be created.</div>
+    <div>By clicking the button in the left bottom corner cards with default values will be created.</div>
   </div>
   <button (click)="clickPrev($event)" *ngIf="currentCard!=null" [disabled]="!hasPrevCard" class="nav prev" mat-button>
     <mat-icon>arrow_left</mat-icon>
@@ -24,6 +31,6 @@
 <button (click)="clickDefault()" defBtn mat-fab>
   <mat-icon>restart_alt</mat-icon>
 </button>
-<button (click)="addCard()" *ngIf="globals.cardMode !== 'edit'" addBtn mat-fab>
+<button (click)="addCard()" *ngIf="globals.cardMode !== 'edit' && globals.filterCards == null" addBtn mat-fab>
   <mat-icon>add</mat-icon>
 </button>

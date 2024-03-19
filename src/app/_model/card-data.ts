@@ -5,16 +5,16 @@ export class CardData extends BaseData {
   front: string;
   back: string;
   face = 'front';
-  categories: string[] = [];
+  labels: string[] = [];
   colorBack: string;
   colorFore: string;
 
   override get asJson(): any {
     return {
       t: this.type,
-      q: this.front,
-      a: this.back,
-      c: this.categories,
+      f: this.front,
+      b: this.back,
+      l: this.labels,
       cb: this.colorBack,
       cf: this.colorFore
     };
@@ -28,14 +28,14 @@ export class CardData extends BaseData {
 
   override _fillFromJson(json: any, def?: any): void {
     this.type = json.t;
-    this.front = json.q;
-    this.back = json.a;
-    this.categories = json.c ?? [];
+    this.front = json.f;
+    this.back = json.b;
+    this.labels = json.l ?? [];
     this.colorBack = json.cb;
     this.colorFore = json.cf;
   }
 
   hasCategory(value: string): boolean {
-    return this.categories.includes(value);
+    return this.labels.includes(value);
   }
 }

@@ -1,7 +1,7 @@
 {
-  "mainHeadBack": "mat-green-900",
+  "mainHeadBack": "mat-blue-900",
   "mainHeadFore": "#fff",
-  "mainBodyBack": "mat-green-300",
+  "mainBodyBack": "mat-blue-300",
   "mainBodyFore": "#000",
   "cardBodyBack": "#fff",
   "cardBodyFore": "#000",

@@ -1,6 +1,6 @@
 import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {CardData} from '@/_model/card-data';
-import {GLOBALS} from '@/_services/globals.service';
+import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
 import {MessageService} from '@/_services/message.service';
 import {Editor, Toolbar, Validators} from 'ngx-editor';
@@ -8,6 +8,11 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {ColorCfgDialogComponent} from '@/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component';
 import {ThemeService} from '@/_services/theme.service';
+import {ColorPickerDialog} from '@/controls/color-picker/color-picker-dialog/color-picker-dialog';
+import {MatDialog} from '@angular/material/dialog';
+import {ColorDialogData} from '@/controls/color-picker/color-picker.component';
+import {ColorData} from '@/_model/color-data';
+import {Utils} from '@/classes/utils';
 
 @Component({
   selector: 'app-card',
@@ -38,7 +43,9 @@ export class CardComponent implements OnInit, OnDestroy {
 
   constructor(public ms: MessageService,
               public sanitizer: DomSanitizer,
-              public ts: ThemeService) {
+              public ts: ThemeService,
+              public globals: GlobalsService,
+              public dialog: MatDialog) {
   }
 
   get cardFace(): string {
@@ -51,6 +58,15 @@ export class CardComponent implements OnInit, OnDestroy {
     }
   }
 
+  get cardLabels(): string[] {
+    return this.currentCard?.labels;
+  }
+
+  get configLabels(): string[] {
+    const ret = GLOBALS.cardConfig.labels;
+    return ret.filter(l => !this.cardLabels.includes(l));
+  }
+
   get cardConfig() {
     return GLOBALS.cardConfig;
   }
@@ -60,10 +76,30 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   get styleForCard(): any {
-    return {
+    const ret: any = {
       backgroundColor: this.currentCard.colorBack ?? 'white',
       color: this.currentCard.colorFore ?? 'black'
     };
+    const bc: string[] = [];
+    const fc: string[] = [];
+    for (const label of this.currentCard.labels) {
+      const l = GLOBALS.cardConfig.labelColors[label];
+      ret.l = l;
+      if (l != null) {
+        bc.push(l.back);
+        fc.push(l.fore);
+      }
+    }
+    if (bc.length === 1) {
+      ret.backgroundColor = `#${bc[0]}`;
+    } else if (bc.length > 1) {
+      delete (ret.backgroundColor);
+      ret.background = `linear-gradient(${Utils.join(bc.map(c => `#${c}`), ',')})`;
+    }
+    if (fc.length > 0) {
+      ret.color = `#${fc[0]}`;
+    }
+    return ret;
   }
 
   get dataForEdit(): any {
@@ -74,6 +110,10 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   // make sure to destory the editor
+  get hasEditor(): boolean {
+    return this.cardFace === 'front' || this.cardFace === 'back';
+  }
+
   get styleForForm(): any {
     const color = {
       b: this.currentCard.colorBack ?? 'white',
@@ -85,7 +125,27 @@ export class CardComponent implements OnInit, OnDestroy {
       '--mat-standard-button-toggle-state-layer-color': color.f,
       '--mat-standard-button-toggle-selected-state-background-color': color.f,
       '--mat-standard-button-toggle-selected-state-text-color': color.b,
-      '--mat-standard-button-toggle-divider-color': color.f
+      '--mat-standard-button-toggle-divider-color': color.f,
+      '--mdc-chip-elevated-container-color': 'red',
+      '--mdc-chip-label-text-color': 'blue',
+      '--mdc-chip-elevated-disabled-container-color': 'yellow',
+    };
+  }
+
+  styleForChip(label: string): any {
+    const color = {
+      b: this.currentCard.colorBack ?? 'white',
+      f: this.currentCard.colorFore ?? 'black'
+    };
+    if (GLOBALS.cardConfig.labelColors[label] != null) {
+      color.b = '#' + GLOBALS.cardConfig.labelColors[label].back;
+      color.f = '#' + GLOBALS.cardConfig.labelColors[label].fore;
+    }
+    return {
+      '--mdc-chip-elevated-container-color': color.f,
+      '--mdc-chip-label-text-color': color.b,
+      '--mdc-chip-elevated-disabled-container-color': 'yellow',
+      '--mdc-chip-with-trailing-icon-trailing-icon-color': color.b
     };
   }
 
@@ -103,7 +163,12 @@ export class CardComponent implements OnInit, OnDestroy {
 
   clickSave(evt: MouseEvent) {
     if (this.currentCard != null) {
-      (this.currentCard as any)[this.cardFace] = this.form.controls.edit.value;
+      switch (this.cardFace) {
+        case 'front':
+        case 'back':
+          (this.currentCard as any)[this.cardFace] = this.form.controls.edit.value;
+          break;
+      }
     }
     evt.stopPropagation();
     GLOBALS.cardMode = 'view';
@@ -112,13 +177,19 @@ export class CardComponent implements OnInit, OnDestroy {
 
   clickCancel(evt: MouseEvent) {
     evt.stopPropagation();
-    (this.currentCard as any)[this.cardFace] = this.form.controls.edit.value;
+    switch (this.cardFace) {
+      case'front':
+      case'back':
+        (this.currentCard as any)[this.cardFace] = this.form.controls.edit.value;
+        break;
+    }
     if (this.currentCard.asString !== JSON.stringify(this.orgCard)) {
       this.ms.confirm($localize`Do you really want to discard the changes?`)
         .subscribe(result => {
           if (result?.btn === DialogResultButton.yes) {
             this.currentCard?.fillFromJson(this.orgCard);
             GLOBALS.cardMode = 'view';
+            this.cardConfig.extractLabels(GLOBALS.cardList);
           }
         });
     } else {
@@ -129,7 +200,12 @@ export class CardComponent implements OnInit, OnDestroy {
 
   clickEdit(evt: MouseEvent) {
     evt?.stopPropagation();
-    this.form.controls.edit.setValue((this.currentCard as any)?.[this.cardFace]);
+    switch (this.cardFace) {
+      case 'front':
+      case 'back':
+        this.form.controls.edit.setValue((this.currentCard as any)?.[this.cardFace]);
+        break;
+    }
     this.form.controls.cardFace.setValue(this.cardFace);
     this.orgCard = this.currentCard.asJson;
     GLOBALS.cardMode = 'edit';
@@ -149,32 +225,36 @@ export class CardComponent implements OnInit, OnDestroy {
     this.cardFace = (this.cardFace === 'back') ? 'front' : 'back';
   }
 
-  addCategory(evt: Event) {
+  addLabel(evt: Event) {
     evt.stopPropagation();
     const def: IDialogDef = {
-      title: $localize`Enter new category`,
+      title: $localize`Enter new Label`,
       type: DialogType.info,
       controls: [{type: 'input', title: null, id: 'name', autofocus: true}],
       buttons: [
         {title: $localize`Cancel`, icon: 'cancel', result: {btn: 'cancel'}},
         {title: $localize`Save`, icon: 'save', result: {btn: 'save'}, focus: true}]
     };
-    this.ms.showDialog(def, 'Name of category').subscribe(result => {
+    this.ms.showDialog(def, $localize`Name of Label`).subscribe(result => {
       if (result?.btn === 'save') {
         const cat = result.data.controls.name.value;
-        if (!this.currentCard.categories.includes(cat)) {
-          this.currentCard.categories.push(cat)
+        if (!this.currentCard.labels.includes(cat)) {
+          this.currentCard.labels.push(cat)
         }
-        this.cardConfig.extractCategories(GLOBALS.cardList);
+        this.cardConfig.extractLabels(GLOBALS.cardList);
       }
     });
   }
 
-  removeCategory(cat: string) {
-    const idx = this.currentCard.categories.indexOf(cat);
+  removeLabel(value: string) {
+    const idx = this.currentCard.labels.indexOf(value);
     if (idx >= 0) {
-      this.currentCard.categories.splice(idx, 1);
+      this.currentCard.labels.splice(idx, 1);
     }
+  }
+
+  assignLabel(value: string) {
+    this.currentCard.labels.push(value);
   }
 
   cardText(cardClass: string, removeColors = false): SafeHtml {
@@ -188,7 +268,7 @@ export class CardComponent implements OnInit, OnDestroy {
         break;
     }
     if (removeColors) {
-      text = text.replace(/([^c]*)(color:[^;]*;)([^c]*)/g, '$1$3');
+      text = (text ?? '').replace(/([^c]*)(color:[^;]*;)([^c]*)/g, '$1$3');
     }
     return this.sanitizer.bypassSecurityTrustHtml(text);
   }
@@ -211,9 +291,19 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   onCardFaceChange(_evt: any) {
-    (this.currentCard as any)[this.cardFace] = this.form.controls.edit.value;
+    switch (this.cardFace) {
+      case 'front':
+      case 'back':
+        (this.currentCard as any)[this.cardFace] = this.form.controls.edit.value;
+        break;
+    }
     this.cardFace = this.form.controls.cardFace.value;
-    this.form.controls.edit.setValue((this.currentCard as any)[this.cardFace]);
+    switch (this.cardFace) {
+      case 'front':
+      case 'back':
+        this.form.controls.edit.setValue((this.currentCard as any)[this.cardFace]);
+        break;
+    }
     this.activateEdit();
   }
 
@@ -253,5 +343,45 @@ export class CardComponent implements OnInit, OnDestroy {
         break;
     }
     this.cardFace = 'front';
+  }
+
+  clickLabelColor(evt: MouseEvent, label: string) {
+    evt?.stopPropagation();
+    const colors = GLOBALS.cardConfig.labelColors[label] ?? {
+      back: this.currentCard.colorBack,
+      fore: this.currentCard.colorFore
+    }
+    const backColor = ColorData.fromString(colors.back);
+    const foreColor = ColorData.fromString(colors.fore);
+    backColor.title = 'Background';
+    foreColor.title = 'Text';
+    const data: ColorDialogData = {
+      imageDataUrl: '',
+      onDataChanged: null,
+      onDialogEvent: null,
+      colorIdx: 0,
+      colorChange: null,
+      maxFilesize: null,
+      mixColors: null,
+      modeList: ['hsl'],
+      mode: 'hsl',
+      action: 'open',
+      colorList: [backColor, foreColor]
+    };
+    console.log(data.colorList[data.colorIdx]);
+    this.dialog.open(ColorPickerDialog,
+      {
+        data: data,
+        panelClass: ['dialog-box', 'settings'],
+        disableClose: true
+      }).afterClosed().subscribe(response => {
+      if (response?.btn === DialogResultButton.ok) {
+        console.log('HURZ', data.colorList);
+        GLOBALS.cardConfig.labelColors[label] = {
+          back: data.colorList[0].display_rgba,
+          fore: data.colorList[1].display_rgba,
+        };
+      }
+    });
   }
 }

@@ -4,6 +4,7 @@ import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {MessageService} from '@/_services/message.service';
 import {Utils} from '@/classes/utils';
 import {DialogResultButton} from '@/_model/dialog-data';
+import {MatChipListboxChange} from '@angular/material/chips';
 
 // https://3dtransforms.desandro.com/carousel
 @Component({
@@ -41,12 +42,34 @@ export class CardBoxComponent implements OnInit {
   }
 
   get currCat(): string {
-    return Utils.join(this.currentCard?.categories, ', ');
+    return Utils.join(this.currentCard?.labels, ', ');
   }
 
   set currCat(value: string) {
-    this.currentCard.categories.splice(0, this.currentCard.categories.length);
-    this.currentCard.categories.push(...(value?.split(',') ?? []));
+    this.currentCard.labels.splice(0, this.currentCard.labels.length);
+    this.currentCard.labels.push(...(value?.split(',') ?? []));
+  }
+
+  get configLabels(): string[] {
+    return GLOBALS.cardConfig.labels;
+  }
+
+  styleForChip(label: string): any {
+    const color = {
+      b: 'white',
+      f: 'black'
+    };
+    if (GLOBALS.cardConfig.labelColors[label] != null) {
+      color.b = '#' + GLOBALS.cardConfig.labelColors[label].back;
+      color.f = '#' + GLOBALS.cardConfig.labelColors[label].fore;
+    }
+    return {
+      '--mdc-chip-elevated-container-color': color.f,
+      '--mdc-chip-label-text-color': color.b,
+      '--mdc-chip-elevated-disabled-container-color': 'yellow',
+      '--mdc-chip-with-trailing-icon-trailing-icon-color': color.b,
+      '--mdc-chip-with-icon-selected-icon-color': color.b
+    };
   }
 
   ngOnInit() {
@@ -56,7 +79,7 @@ export class CardBoxComponent implements OnInit {
 
   addCard() {
     const card = new CardData();
-    card.categories.push('Standard');
+    card.labels.push('Standard');
     if (GLOBALS.cardList.length === 0) {
       card.front = $localize`What do you want to know?`;
       card.back = $localize`Everything!`;
@@ -66,7 +89,7 @@ export class CardBoxComponent implements OnInit {
     }
     GLOBALS.cardList.push(card);
     this.cardIdx = GLOBALS.cardList.length - 1;
-    this.cardConfig.extractCategories(GLOBALS.cardList);
+    this.cardConfig.extractLabels(GLOBALS.cardList);
     this.initCards();
   }
 
@@ -114,12 +137,8 @@ export class CardBoxComponent implements OnInit {
     this.ms.confirm($localize`Reset all Questions / Answers to default and loose everything you entered?`)
       .subscribe(result => {
         if (result?.btn === DialogResultButton.yes) {
-          const list = [];
-          for (const card of GLOBALS.defaultCards) {
-            list.push(CardData.fromJson(card));
-          }
-          GLOBALS.cardList.splice(0, GLOBALS.cardList.length);
-          GLOBALS.cardList.push(...list);
+          GLOBALS.cardMode = 'view';
+          GLOBALS.loadSharedData(GLOBALS.defaultData);
           this.cardIdx = 0;
           this.initCards();
         }
@@ -138,5 +157,10 @@ export class CardBoxComponent implements OnInit {
           break;
       }
     }
+  }
+
+  onChangeLabels(evt: MatChipListboxChange) {
+    console.log(evt.value);
+    GLOBALS.filterCards = Utils.isEmpty(evt.value) ? null : evt.value;
   }
 }
