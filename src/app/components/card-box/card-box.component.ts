@@ -160,7 +160,14 @@ export class CardBoxComponent implements OnInit {
   }
 
   onChangeLabels(evt: MatChipListboxChange) {
-    console.log(evt.value);
     GLOBALS.filterCards = Utils.isEmpty(evt.value) ? null : evt.value;
+  }
+
+  clickLabelColor(evt: MouseEvent, label: string) {
+    evt?.stopPropagation();
+    GLOBALS.changeLabelColor(label, {
+      back: this.currentCard.colorBack,
+      fore: this.currentCard.colorFore
+    });
   }
 }

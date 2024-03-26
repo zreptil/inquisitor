@@ -13,6 +13,11 @@ import {WhatsNewComponent} from '@/components/whats-new/whats-new.component';
 import {WelcomeComponent} from '@/components/welcome/welcome.component';
 import {CardData} from '@/_model/card-data';
 import {CardConfig} from '@/_model/card-config';
+import {ColorData} from '@/_model/color-data';
+import {ColorDialogData} from '@/controls/color-picker/color-picker.component';
+import {ColorPickerDialog} from '@/controls/color-picker/color-picker-dialog/color-picker-dialog';
+import {DialogResultButton} from '@/_model/dialog-data';
+import {MatDialog} from '@angular/material/dialog';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -64,7 +69,8 @@ export class GlobalsService {
               public sync: SyncService,
               public ls: LanguageService,
               public ms: MessageService,
-              public env: EnvironmentService) {
+              public env: EnvironmentService,
+              public dialog: MatDialog) {
     GLOBALS = this;
     this.loadWebData();
     this.loadSharedData().then(_ => {
@@ -441,6 +447,41 @@ export class GlobalsService {
       }
     }
     return name;
+  }
+
+  changeLabelColor(label: string, defColors: any) {
+    const colors = GLOBALS.cardConfig.labelColors[label] ?? defColors;
+    const backColor = ColorData.fromString(colors.back);
+    const foreColor = ColorData.fromString(colors.fore);
+    backColor.title = 'Background';
+    foreColor.title = 'Text';
+    const data: ColorDialogData = {
+      imageDataUrl: '',
+      onDataChanged: null,
+      onDialogEvent: null,
+      colorIdx: 0,
+      colorChange: null,
+      maxFilesize: null,
+      mixColors: null,
+      modeList: ['hsl'],
+      mode: 'hsl',
+      action: 'open',
+      colorList: [backColor, foreColor]
+    };
+    this.dialog.open(ColorPickerDialog,
+      {
+        data: data,
+        panelClass: ['dialog-box', 'settings'],
+        disableClose: true
+      }).afterClosed().subscribe(response => {
+      if (response?.btn === DialogResultButton.ok) {
+        console.log('HURZ', data.colorList);
+        GLOBALS.cardConfig.labelColors[label] = {
+          back: data.colorList[0].display_rgba,
+          fore: data.colorList[1].display_rgba,
+        };
+      }
+    });
   }
 
   private may(key: string): boolean {

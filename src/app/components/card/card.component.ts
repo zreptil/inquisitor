@@ -8,10 +8,6 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {ColorCfgDialogComponent} from '@/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component';
 import {ThemeService} from '@/_services/theme.service';
-import {ColorPickerDialog} from '@/controls/color-picker/color-picker-dialog/color-picker-dialog';
-import {MatDialog} from '@angular/material/dialog';
-import {ColorDialogData} from '@/controls/color-picker/color-picker.component';
-import {ColorData} from '@/_model/color-data';
 import {Utils} from '@/classes/utils';
 
 @Component({
@@ -44,8 +40,7 @@ export class CardComponent implements OnInit, OnDestroy {
   constructor(public ms: MessageService,
               public sanitizer: DomSanitizer,
               public ts: ThemeService,
-              public globals: GlobalsService,
-              public dialog: MatDialog) {
+              public globals: GlobalsService) {
   }
 
   get cardFace(): string {
@@ -130,6 +125,14 @@ export class CardComponent implements OnInit, OnDestroy {
       '--mdc-chip-label-text-color': 'blue',
       '--mdc-chip-elevated-disabled-container-color': 'yellow',
     };
+  }
+
+  clickLabelColor(evt: MouseEvent, label: string) {
+    evt?.stopPropagation();
+    GLOBALS.changeLabelColor(label, {
+      back: this.currentCard.colorBack,
+      fore: this.currentCard.colorFore
+    });
   }
 
   styleForChip(label: string): any {
@@ -343,45 +346,5 @@ export class CardComponent implements OnInit, OnDestroy {
         break;
     }
     this.cardFace = 'front';
-  }
-
-  clickLabelColor(evt: MouseEvent, label: string) {
-    evt?.stopPropagation();
-    const colors = GLOBALS.cardConfig.labelColors[label] ?? {
-      back: this.currentCard.colorBack,
-      fore: this.currentCard.colorFore
-    }
-    const backColor = ColorData.fromString(colors.back);
-    const foreColor = ColorData.fromString(colors.fore);
-    backColor.title = 'Background';
-    foreColor.title = 'Text';
-    const data: ColorDialogData = {
-      imageDataUrl: '',
-      onDataChanged: null,
-      onDialogEvent: null,
-      colorIdx: 0,
-      colorChange: null,
-      maxFilesize: null,
-      mixColors: null,
-      modeList: ['hsl'],
-      mode: 'hsl',
-      action: 'open',
-      colorList: [backColor, foreColor]
-    };
-    console.log(data.colorList[data.colorIdx]);
-    this.dialog.open(ColorPickerDialog,
-      {
-        data: data,
-        panelClass: ['dialog-box', 'settings'],
-        disableClose: true
-      }).afterClosed().subscribe(response => {
-      if (response?.btn === DialogResultButton.ok) {
-        console.log('HURZ', data.colorList);
-        GLOBALS.cardConfig.labelColors[label] = {
-          back: data.colorList[0].display_rgba,
-          fore: data.colorList[1].display_rgba,
-        };
-      }
-    });
   }
 }

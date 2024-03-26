@@ -61,7 +61,10 @@ export class ColorData extends BaseData {
       ret.value[0] = +parts[0];
       ret.value[1] = +parts[1];
       ret.value[2] = +parts[2];
-    } else if (value?.length === 7) {
+    } else if (value?.length === 7 || value?.length === 6) {
+      if (value?.length === 6) {
+        value = `#${value}`;
+      }
       const r = parseInt(value.substring(1, 3), 16);
       const g = parseInt(value.substring(3, 5), 16);
       const b = parseInt(value.substring(5), 16);
@@ -71,7 +74,10 @@ export class ColorData extends BaseData {
       const g = parseInt(value.substring(2, 3), 16);
       const b = parseInt(value.substring(3), 16);
       ret.value = [r * 16 + r, g * 16 + g, b * 16 + b];
-    } else if (value?.length === 9) {
+    } else if (value?.length === 9 || value?.length === 8) {
+      if (value?.length === 8) {
+        value = `#${value}`;
+      }
       const r = parseInt(value.substring(1, 3), 16);
       const g = parseInt(value.substring(3, 5), 16);
       const b = parseInt(value.substring(5, 7), 16);

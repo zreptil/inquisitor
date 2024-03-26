@@ -43,10 +43,14 @@ export class ColorPickerDialog implements AfterViewInit {
     while (this.savedColors.length >= ColorPickerDialog._maxSavedColors) {
       this.savedColors.splice(0, 1);
     }
-    if (data.colorList?.length > 0 && data.colorList[0].themeKey == null) {
-      this.savedColors.push(data.colorList[0]);
+    let idx = 0;
+    for (const color of data.colorList) {
+      if (color.themeKey == null) {
+        color.themeKey = `temp${idx++}`;
+      }
     }
     this.currSavedIdx = ColorPickerDialog._savedColors.length - 1;
+    this.savedColors[this.savedColors.length - 1] = data.colorList[0];
     this.updateTitle();
   }
 
