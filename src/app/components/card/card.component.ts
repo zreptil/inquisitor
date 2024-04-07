@@ -1,7 +1,7 @@
 import {Component, HostListener, Input, OnDestroy, OnInit} from '@angular/core';
 import {CardData} from '@/_model/card-data';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
-import {DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
+import {DialogResultButton} from '@/_model/dialog-data';
 import {MessageService} from '@/_services/message.service';
 import {Editor, Toolbar, Validators} from 'ngx-editor';
 import {FormControl, FormGroup} from '@angular/forms';
@@ -78,7 +78,7 @@ export class CardComponent implements OnInit, OnDestroy {
     const bc: string[] = [];
     const fc: string[] = [];
     for (const label of this.currentCard.labels) {
-      const l = GLOBALS.cardConfig.labelColors[label];
+      const l = GLOBALS.cardConfig.labelData[label];
       ret.l = l;
       if (l != null) {
         bc.push(l.back);
@@ -127,22 +127,14 @@ export class CardComponent implements OnInit, OnDestroy {
     };
   }
 
-  clickLabelColor(evt: MouseEvent, label: string) {
-    evt?.stopPropagation();
-    GLOBALS.changeLabelColor(label, {
-      back: this.currentCard.colorBack,
-      fore: this.currentCard.colorFore
-    });
-  }
-
   styleForChip(label: string): any {
     const color = {
       b: this.currentCard.colorBack ?? 'white',
       f: this.currentCard.colorFore ?? 'black'
     };
-    if (GLOBALS.cardConfig.labelColors[label] != null) {
-      color.b = '#' + GLOBALS.cardConfig.labelColors[label].back;
-      color.f = '#' + GLOBALS.cardConfig.labelColors[label].fore;
+    if (GLOBALS.cardConfig.labelData[label] != null) {
+      color.b = '#' + GLOBALS.cardConfig.labelData[label].back;
+      color.f = '#' + GLOBALS.cardConfig.labelData[label].fore;
     }
     return {
       '--mdc-chip-elevated-container-color': color.f,
@@ -230,23 +222,7 @@ export class CardComponent implements OnInit, OnDestroy {
 
   addLabel(evt: Event) {
     evt.stopPropagation();
-    const def: IDialogDef = {
-      title: $localize`Enter new Label`,
-      type: DialogType.info,
-      controls: [{type: 'input', title: null, id: 'name', autofocus: true}],
-      buttons: [
-        {title: $localize`Cancel`, icon: 'cancel', result: {btn: 'cancel'}},
-        {title: $localize`Save`, icon: 'save', result: {btn: 'save'}, focus: true}]
-    };
-    this.ms.showDialog(def, $localize`Name of Label`).subscribe(result => {
-      if (result?.btn === 'save') {
-        const cat = result.data.controls.name.value;
-        if (!this.currentCard.labels.includes(cat)) {
-          this.currentCard.labels.push(cat)
-        }
-        this.cardConfig.extractLabels(GLOBALS.cardList);
-      }
-    });
+    GLOBALS.editLabel(this.currentCard, null);
   }
 
   removeLabel(value: string) {

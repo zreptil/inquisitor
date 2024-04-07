@@ -16,7 +16,7 @@ import {CardConfig} from '@/_model/card-config';
 import {ColorData} from '@/_model/color-data';
 import {ColorDialogData} from '@/controls/color-picker/color-picker.component';
 import {ColorPickerDialog} from '@/controls/color-picker/color-picker-dialog/color-picker-dialog';
-import {DialogResultButton} from '@/_model/dialog-data';
+import {DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
 import {MatDialog} from '@angular/material/dialog';
 
 class CustomTimeoutError extends Error {
@@ -450,7 +450,7 @@ export class GlobalsService {
   }
 
   changeLabelColor(label: string, defColors: any) {
-    const colors = GLOBALS.cardConfig.labelColors[label] ?? defColors;
+    const colors = GLOBALS.cardConfig.labelData[label] ?? defColors;
     const backColor = ColorData.fromString(colors.back);
     const foreColor = ColorData.fromString(colors.fore);
     backColor.title = 'Background';
@@ -476,10 +476,43 @@ export class GlobalsService {
       }).afterClosed().subscribe(response => {
       if (response?.btn === DialogResultButton.ok) {
         console.log('HURZ', data.colorList);
-        GLOBALS.cardConfig.labelColors[label] = {
+        GLOBALS.cardConfig.labelData[label] = {
           back: data.colorList[0].display_rgba,
           fore: data.colorList[1].display_rgba,
         };
+      }
+    });
+  }
+
+  editLabel(currentCard: CardData, label: string): void {
+    const def: IDialogDef = {
+      title: label == null ? $localize`Enter new Label` : $localize`Label ${label}`,
+      type: DialogType.info,
+      controls: [{type: 'input', title: null, id: 'name', value: label, autofocus: true}],
+      buttons: [
+        {title: $localize`Cancel`, icon: 'cancel', result: {btn: 'cancel'}},
+        {title: $localize`Save`, icon: 'save', result: {btn: 'save'}, focus: true}]
+    };
+    this.ms.showDialog(def, $localize`Name of Label`).subscribe(result => {
+      if (result?.btn === 'save') {
+        if (label != null) {
+          for (const card of GLOBALS.cardList) {
+            card.labels = card.labels.map(l => {
+              if (l === label) {
+                return result.data.controls.name.value;
+              }
+              return l;
+            });
+          }
+          GLOBALS.cardConfig.labelData[result.data.controls.name.value] = GLOBALS.cardConfig.labelData[label];
+          delete GLOBALS.cardConfig.labelData[label];
+        } else {
+          const cat = result.data.controls.name.value;
+          if (currentCard != null && !currentCard.labels.includes(cat)) {
+            currentCard.labels.push(cat)
+          }
+        }
+        this.cardConfig.extractLabels(GLOBALS.cardList);
       }
     });
   }

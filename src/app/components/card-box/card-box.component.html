@@ -2,6 +2,9 @@
   @for (label of configLabels; track label) {
     <mat-chip-option [style]="styleForChip(label)">
       {{ label }}
+      <button matChipRemove (click)="clickLabelEdit($event, label)">
+        <mat-icon>edit</mat-icon>
+      </button>
       <button matChipRemove (click)="clickLabelColor($event, label)">
         <mat-icon>palette</mat-icon>
       </button>

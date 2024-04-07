@@ -59,9 +59,9 @@ export class CardBoxComponent implements OnInit {
       b: 'white',
       f: 'black'
     };
-    if (GLOBALS.cardConfig.labelColors[label] != null) {
-      color.b = '#' + GLOBALS.cardConfig.labelColors[label].back;
-      color.f = '#' + GLOBALS.cardConfig.labelColors[label].fore;
+    if (GLOBALS.cardConfig.labelData[label] != null) {
+      color.b = '#' + GLOBALS.cardConfig.labelData[label].back;
+      color.f = '#' + GLOBALS.cardConfig.labelData[label].fore;
     }
     return {
       '--mdc-chip-elevated-container-color': color.f,
@@ -161,6 +161,12 @@ export class CardBoxComponent implements OnInit {
 
   onChangeLabels(evt: MatChipListboxChange) {
     GLOBALS.filterCards = Utils.isEmpty(evt.value) ? null : evt.value;
+    this.cardIdx = 0;
+  }
+
+  clickLabelEdit(evt: MouseEvent, label: string) {
+    evt?.stopPropagation();
+    GLOBALS.editLabel(null, label);
   }
 
   clickLabelColor(evt: MouseEvent, label: string) {

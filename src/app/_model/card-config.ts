@@ -8,7 +8,7 @@ export class CardType {
   color: ColorData;
 }
 
-export class LabelColors {
+export class LabelData {
   constructor(public back: string,
               public fore: string) {
 
@@ -17,12 +17,12 @@ export class LabelColors {
 
 export class CardConfig extends BaseData {
   labels: string[] = [];
-  labelColors: { [key: string]: LabelColors } = {};
+  labelData: { [key: string]: LabelData } = {};
 
   override get asJson(): any {
     const lc: any = {};
-    for (const key of Object.keys(this.labelColors)) {
-      lc[key] = {b: this.labelColors[key].back, f: this.labelColors[key].fore};
+    for (const key of Object.keys(this.labelData)) {
+      lc[key] = {b: this.labelData[key].back, f: this.labelData[key].fore};
     }
     return {
       l: this.labels,
@@ -49,9 +49,9 @@ export class CardConfig extends BaseData {
   }
 
   override _fillFromJson(json: any, def?: any): void {
-    this.labelColors = {};
+    this.labelData = {};
     for (const key of Object.keys(json.lc ?? {})) {
-      this.labelColors[key] = new LabelColors(json.lc[key].b, json.lc[key].f);
+      this.labelData[key] = new LabelData(json.lc[key].b, json.lc[key].f);
     }
   }
 }

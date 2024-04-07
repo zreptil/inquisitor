@@ -432,6 +432,53 @@
           <context context-type="linenumber">431</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="1196952613856255833" datatype="html">
+        <source>Enter new Label</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">489</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3907433627453313804" datatype="html">
+        <source>Label <x id="PH" equiv-text="label"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">489</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2159130950882492111" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">493</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3768927257183755959" datatype="html">
+        <source>Save</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">494</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/card/card.component.html</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/color-picker/color-picker-dialog/color-picker-dialog.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8911525952268359975" datatype="html">
+        <source>Name of Label</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/_services/globals.service.ts</context>
+          <context context-type="linenumber">496</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="7351700212933699939" datatype="html">
         <source>The file <x id="PH" equiv-text="filename"/> was downloaded from Dropbox.</source>
         <context-group purpose="location">
@@ -707,7 +754,7 @@
         <source><x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div *ngIf=&quot;globals.filterCards == null&quot;&gt;"/>By clicking the button in the right bottom corner a new card will be created.<x id="CLOSE_TAG_DIV" ctype="x-div" equiv-text="&lt;/div&gt;"/><x id="START_TAG_DIV_1" ctype="x-div_1" equiv-text="&lt;div&gt;"/>By clicking the button in the left bottom corner cards with default values will be created.<x id="CLOSE_TAG_DIV" ctype="x-div" equiv-text="&lt;/div&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card-box/card-box.component.html</context>
-          <context context-type="linenumber">23,24</context>
+          <context context-type="linenumber">26,27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3389185365103310416" datatype="html">
@@ -783,79 +830,39 @@
           <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="3768927257183755959" datatype="html">
-        <source>Save</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/card/card.component.html</context>
-          <context context-type="linenumber">103</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">239</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component.html</context>
-          <context context-type="linenumber">28</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/controls/color-picker/color-picker-dialog/color-picker-dialog.html</context>
-          <context context-type="linenumber">75</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="7841430672042223267" datatype="html">
         <source>Correct</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">125</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2748884846672363037" datatype="html">
         <source>Wrong</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.html</context>
-          <context context-type="linenumber">132</context>
+          <context context-type="linenumber">129</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1588636432050016093" datatype="html">
         <source>Unsteady</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.html</context>
-          <context context-type="linenumber">136</context>
+          <context context-type="linenumber">133</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4762357517538202618" datatype="html">
         <source>Do you really want to discard the changes?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">190</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="1196952613856255833" datatype="html">
-        <source>Enter new Label</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">234</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2159130950882492111" datatype="html">
-        <source>Cancel</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">238</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="8911525952268359975" datatype="html">
-        <source>Name of Label</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">241</context>
+          <context context-type="linenumber">182</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2134118752304088928" datatype="html">
         <source>This will delete the card. Are you sure?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/card/card.component.ts</context>
-          <context context-type="linenumber">289</context>
+          <context context-type="linenumber">265</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2506919078426846976" datatype="html">
@@ -921,7 +928,7 @@
         <source>Colorselection</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/controls/color-picker/color-picker-dialog/color-picker-dialog.ts</context>
-          <context context-type="linenumber">159</context>
+          <context context-type="linenumber">154</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3054799567417110086" datatype="html">
