@@ -1,0 +1,53 @@
+:host {
+  --headBack: var(--mainHeadBack);
+  --headFore: var(--mainHeadFore);
+  --bodyBack: var(--mainBodyBack);
+  --bodyFore: var(--mainBodyFore);
+  --accentBack: var(--mainHeadBack);
+  --accentFore: var(--mainHeadFore);
+  --subHeadFore: var(--mainHeadBack);
+
+  --mat-standard-button-toggle-divider-color: var(--mainHeadBack);
+  --mat-standard-button-toggle-background-color: var(--mainBodyBack);
+  --mat-standard-button-toggle-text-color: var(--mainBodyFore);
+
+  --mat-standard-button-toggle-selected-state-background-color: var(--mainHeadBack);
+  --mat-standard-button-toggle-selected-state-text-color: var(--mainHeadFore);
+}
+
+form {
+  background-color: var(--mainBodyBack);
+  color: var(--mainBodyFore);
+
+  .mat-button-toggle-group {
+    margin-bottom: 5px;
+  }
+
+  ::ng-deep {
+    .NgxEditor__MenuBar,
+    .NgxEditor {
+      background: transparent;
+      color: inherit;
+    }
+
+    .NgxEditor__MenuItem:hover {
+      background-color: var(--mainHeadBack);
+      color: var(--mainHeadFore);
+    }
+
+    .NgxEditor__MenuItem.NgxEditor__MenuItem--Active,
+    .NgxEditor__MenuItem .NgxEditor__MenuItem--Active {
+      background: var(--mat-standard-button-toggle-text-color);
+      color: var(--mat-standard-button-toggle-background-color);
+    }
+
+    .NgxEditor__Seperator {
+      border-left: 1px solid var(--mat-standard-button-toggle-text-color);
+    }
+  }
+
+  ::ng-deep .NgxEditor {
+    max-height: calc(var(--doc-height) * 0.4);
+    overflow-y: auto;
+  }
+}

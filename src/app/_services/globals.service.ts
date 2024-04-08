@@ -18,6 +18,8 @@ import {ColorDialogData} from '@/controls/color-picker/color-picker.component';
 import {ColorPickerDialog} from '@/controls/color-picker/color-picker-dialog/color-picker-dialog';
 import {DialogResultButton, DialogType, IDialogDef} from '@/_model/dialog-data';
 import {MatDialog} from '@angular/material/dialog';
+import {MatChipListboxChange} from '@angular/material/chips';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 class CustomTimeoutError extends Error {
   constructor() {
@@ -70,11 +72,12 @@ export class GlobalsService {
               public ls: LanguageService,
               public ms: MessageService,
               public env: EnvironmentService,
+              public sanitizer: DomSanitizer,
               public dialog: MatDialog) {
     GLOBALS = this;
     this.loadWebData();
     this.loadSharedData().then(_ => {
-      this.currentPage = 'cardbox';
+      this.currentPage = 'cardlist';
       if (Utils.isEmpty(this.storageVersion)) {
         this.ms.showPopup(WelcomeComponent, 'welcome', {}).subscribe(_result => {
           this.saveSharedData();
@@ -211,50 +214,46 @@ export class GlobalsService {
   get defaultData(): any {
     return {
       's2': [{
-        'f': '<p>Wie groß ist die <strong>Masse</strong> der <strong>Erde</strong>?</p>',
+        'f': '<p><strong>Masse</strong> der <strong>Erde</strong></p>',
         'b': '<p><strong>5,97 Trilliarden Tonnen</strong></p><p>5,97 x 10^21 t<br>5,97 x 10^24 kg</p>',
         'l': ['Erde'],
         'cb': 'rgba(255,255,255,1)',
         'cf': 'rgba(0,0,0,1)'
       }, {
-        'f': '<p>Wie groß ist die <strong>Masse </strong>der <strong>Sonne</strong>?</p>',
+        'f': '<p><strong>Masse </strong>der <strong>Sonne</strong></p>',
         'b': '<p><strong>1,98 Quadrilliarden Tonnen</strong></p><p>1,98 x 10^27 t<br>1,98 x 10^30 kg</p>',
         'l': ['Sonne'],
         'cb': 'rgba(255,255,255,1)',
         'cf': 'rgba(0,0,0,1)'
       }, {
-        'f': '<p>Wie groß ist der <strong>Durchmesser</strong> der Erde?</p>',
+        'f': '<p><strong>Durchmesser</strong> der Erde</p>',
         'b': '<p><strong>12.700 km</strong></p>',
         'l': ['Erde'],
         'cb': 'rgba(0,0,255,1)',
         'cf': 'rgba(255,255,255,1)'
       }, {
-        'f': '<p>Wie groß ist der <strong>Durchmesser </strong>der <strong>Sonne</strong>?</p>',
+        'f': '<p><strong>Durchmesser </strong>der <strong>Sonne</strong></p>',
         'b': '<p><strong>1.392.700 km</strong></p>',
         'l': ['Sonne'],
         'cb': 'rgba(255,255,0,1)',
         'cf': 'black'
       }, {
-        'f': '<p>Wie groß ist der <strong>Durchmesser </strong>von <strong>Jupiter</strong>?</p>',
+        'f': '<p><strong>Durchmesser </strong>von <strong>Jupiter</strong></p>',
         'b': '<p><strong>140.000 km</strong></p>',
         'l': ['Universum']
       }, {
-        'f': '<p>Wie groß ist die <strong>Masse </strong>von <strong>Jupiter</strong>?</p>',
+        'f': '<p><strong>Masse </strong>von <strong>Jupiter</strong></p>',
         'b': '<p><strong>1,9 Quadrillionen Tonnen</strong></p><p>1,9 x 10^24 t<br>1,9 x 10^27 kg</p>',
         'l': ['Universum']
-      }, {
-        'f': '<p>Wie groß ist der <strong>Umfang</strong> der <strong>Erde</strong>?</p>',
-        'b': '<p><strong>39.898 km</strong></p>',
-        'l': ['Erde']
-      }, {
-        'f': '<p>Wie groß ist der <strong>Umfang </strong>der <strong>Sonne</strong>?</p>',
+      }, {'f': '<p><strong>Umfang</strong> der <strong>Erde</strong></p>', 'b': '<p><strong>39.898 km</strong></p>', 'l': ['Erde']}, {
+        'f': '<p><strong>Umfang </strong>der <strong>Sonne</strong></p>',
         'b': '<p><strong>4.375.296 km</strong></p>',
         'l': ['Sonne']
       }, {
         'f': '<p>Was ist eine <strong>Astronomische Einheit</strong> (AE)?</p>',
         'b': '<p>Der mittlere Abstand von der Erde zur Sonne<br>(149.600.000 km)</p>',
         'l': ['Universum']
-      }, {'f': '<p>Wie groß ist der <strong>Neigungswinkel</strong> der Erdachse?</p>', 'b': '<p><strong>23,4 Grad</strong></p>', 'l': ['Erde']}, {
+      }, {'f': '<p><strong>Neigungswinkel</strong> der Erdachse</p>', 'b': '<p><strong>23,4 Grad</strong></p>', 'l': ['Erde']}, {
         'f': '<p>Wie schnell dreht sich die Erde?</p>',
         'b': '<p><strong>1.670 km/h (Äquator)</strong><br>1.000 km/h (Deutschland)<br>15 Grad/Std. (Winkelgeschwindigkeit)</p>',
         'l': ['Erde']
@@ -291,19 +290,23 @@ export class GlobalsService {
         'b': '<p><strong>105.000 Lichtjahre</strong></p>',
         'l': ['Universum']
       }, {
-        'f': '<p>Wie <strong>dick </strong>ist die Scheibe der <strong>Milchstraße</strong>?</p>',
+        'f': '<p>Dicke<strong> </strong>der Scheibe der <strong>Milchstraße</strong>?</p>',
         'b': '<p><strong>3.000 Lichtjahre</strong></p>',
         'l': ['Universum']
       }, {
-        'f': '<p>Wie <strong>groß </strong>ist das <strong>Universum</strong>?</p>',
+        'f': '<p>Größe des <strong>Universums</strong></p>',
         'b': '<p><strong>90 - 100 Mrd. Lichtjahre</strong></p>',
         'l': ['Universum']
       }, {
-        'f': '<p><strong>Tiefster </strong>Punkt der <strong>Erde</strong>?</p>',
+        'f': '<p><strong>Tiefster </strong>Punkt der <strong>Erde</strong></p>',
         'b': '<p><strong>Marianengraben</strong><br>11 km</p>',
         'l': ['Erde']
-      }, {'f': '<p><strong>Höchster </strong>Punkt der <strong>Erde</strong>?</p>', 'b': '<p><strong>Mt. Everest</strong><br>8,8 km</p>', 'l': ['Erde']}],
-      's3': {'l': ['Erde', 'Sonne', 'Universum'], 'lc': {'Erde': {'b': '0000ff', 'f': 'ffffff'}, 'Universum': {'b': 'e78080ff', 'f': '000000ff'}, 'Sonne': {'b': 'ffff00ff', 'f': '000000ff'}}}
+      }, {'f': '<p><strong>Höchster </strong>Punkt der <strong>Erde</strong></p>', 'b': '<p><strong>Mt. Everest</strong><br>8,8 km</p>', 'l': ['Erde'], 'cb': 'white', 'cf': 'black'}],
+      's3': {
+        'l': ['Erde', 'Sonne', 'Universum'],
+        'lc': {'Erde': {'b': '0000ff', 'f': 'ffffff'}, 'Universum': {'b': 'e78080ff', 'f': '000000ff'}, 'Sonne': {'b': 'ffff00ff', 'f': '000000ff'}},
+        'slc': false
+      }
     };
   }
 
@@ -356,7 +359,7 @@ export class GlobalsService {
       s0: Date.now(),
       s1: this.version,
       s2: cardList,
-      s3: this.cardConfig.asJson
+      s3: this.cardConfig.asJson,
     };
     const data = JSON.stringify(storage);
     localStorage.setItem('sharedData', data);
@@ -450,6 +453,12 @@ export class GlobalsService {
   }
 
   changeLabelColor(label: string, defColors: any) {
+    if (defColors == null) {
+      defColors = {
+        back: GLOBALS.cardConfig.labelData[label]?.back ?? 'ffffffff',
+        fore: GLOBALS.cardConfig.labelData[label]?.fore ?? '000000ff'
+      };
+    }
     const colors = GLOBALS.cardConfig.labelData[label] ?? defColors;
     const backColor = ColorData.fromString(colors.back);
     const foreColor = ColorData.fromString(colors.fore);
@@ -515,6 +524,71 @@ export class GlobalsService {
         this.cardConfig.extractLabels(GLOBALS.cardList);
       }
     });
+  }
+
+  styleForChip(label: string): any {
+    const color = {
+      b: 'white',
+      f: 'black'
+    };
+    if (this.cardConfig.labelData[label] != null) {
+      color.b = '#' + this.cardConfig.labelData[label].back;
+      color.f = '#' + this.cardConfig.labelData[label].fore;
+    }
+    return {
+      '--mdc-chip-elevated-container-color': color.f,
+      '--mdc-chip-label-text-color': color.b,
+      '--mdc-chip-elevated-disabled-container-color': 'yellow',
+      '--mdc-chip-with-trailing-icon-trailing-icon-color': color.b,
+      '--mdc-chip-with-icon-selected-icon-color': color.b
+    };
+  }
+
+  onChangeLabels(evt: MatChipListboxChange) {
+    this.filterCards = Utils.isEmpty(evt.value) ? null : evt.value;
+  }
+
+  styleForCard(card: CardData): any {
+    const ret: any = {
+      backgroundColor: card.colorBack ?? 'white',
+      color: card.colorFore ?? 'black'
+    };
+    const bc: string[] = [];
+    const fc: string[] = [];
+    for (const label of card.labels) {
+      const l = GLOBALS.cardConfig.labelData[label];
+      ret.l = l;
+      if (l != null) {
+        bc.push(l.back);
+        fc.push(l.fore);
+      }
+    }
+    if (bc.length === 1) {
+      ret.backgroundColor = `#${bc[0]}`;
+    } else if (bc.length > 1) {
+      delete (ret.backgroundColor);
+      ret.background = `linear-gradient(${Utils.join(bc.map(c => `#${c}`), ',')})`;
+    }
+    if (fc.length > 0) {
+      ret.color = `#${fc[0]}`;
+    }
+    return ret;
+  }
+
+  cardText(card: CardData, cardClass: string, removeColors = false): SafeHtml {
+    let text = '???';
+    switch (cardClass) {
+      case 'front':
+        text = card?.front;
+        break;
+      case 'back':
+        text = card?.back;
+        break;
+    }
+    if (removeColors) {
+      text = (text ?? '').replace(/([^c]*)(color:[^;]*;)([^c]*)/g, '$1$3');
+    }
+    return this.sanitizer.bypassSecurityTrustHtml(text);
   }
 
   private may(key: string): boolean {

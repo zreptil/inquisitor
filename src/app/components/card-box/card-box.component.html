@@ -1,11 +1,11 @@
 <mat-chip-listbox (change)="onChangeLabels($event)" multiple>
-  @for (label of configLabels; track label) {
-    <mat-chip-option [style]="styleForChip(label)">
+  @for (label of globals.cardConfig.labels; track label) {
+    <mat-chip-option [style]="globals.styleForChip(label)">
       {{ label }}
-      <button matChipRemove (click)="clickLabelEdit($event, label)">
+      <button matChipRemove (click)="clickLabelEdit(null, label)">
         <mat-icon>edit</mat-icon>
       </button>
-      <button matChipRemove (click)="clickLabelColor($event, label)">
+      <button matChipRemove (click)="globals.changeLabelColor(label, null)">
         <mat-icon>palette</mat-icon>
       </button>
     </mat-chip-option>
@@ -34,9 +34,3 @@
   </button>
 </div>
 <div *ngIf="currentCard != null" count>{{ cardIdx + 1 }} / {{ globals.cardList.length }}</div>
-<button (click)="clickDefault()" defBtn mat-fab>
-  <mat-icon>restart_alt</mat-icon>
-</button>
-<button (click)="addCard()" *ngIf="globals.cardMode !== 'edit' && globals.filterCards == null" addBtn mat-fab>
-  <mat-icon>add</mat-icon>
-</button>

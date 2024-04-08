@@ -74,22 +74,6 @@
   }
 }
 
-[addBtn] {
-  position: absolute;
-  right: 0.5em;
-  bottom: 0.5em;
-  background-color: var(--mainHeadBack);
-  color: var(--mainHeadFore);
-}
-
-[defBtn] {
-  position: absolute;
-  left: 0.5em;
-  bottom: 0.5em;
-  background-color: var(--mainHeadBack);
-  color: var(--mainHeadFore);
-}
-
 [count] {
   padding: 1em;
 }

@@ -46,6 +46,10 @@
     mat-icon#link-delete {
       color: var(--trashcan);
     }
+
+    button.current {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
   }
 
   [content] {
@@ -78,10 +82,6 @@
   .crowdin {
     display: none;
   }
-}
-
-.language.current {
-  background: rgba(255, 255, 255, 0.2);
 }
 
 .btnLanguage {

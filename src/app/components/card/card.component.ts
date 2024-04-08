@@ -5,10 +5,9 @@ import {DialogResultButton} from '@/_model/dialog-data';
 import {MessageService} from '@/_services/message.service';
 import {Editor, Toolbar, Validators} from 'ngx-editor';
 import {FormControl, FormGroup} from '@angular/forms';
-import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 import {ColorCfgDialogComponent} from '@/controls/color-cfg/color-cfg-dialog/color-cfg-dialog.component';
 import {ThemeService} from '@/_services/theme.service';
-import {Utils} from '@/classes/utils';
+import {CardPopupComponent} from '@/components/card-popup/card-popup.component';
 
 @Component({
   selector: 'app-card',
@@ -36,9 +35,10 @@ export class CardComponent implements OnInit, OnDestroy {
     edit: new FormControl('', Validators.required()),
     cardFace: new FormControl('front', Validators.required()),
   });
+  @Input()
+  editWithoutColors = false;
 
   constructor(public ms: MessageService,
-              public sanitizer: DomSanitizer,
               public ts: ThemeService,
               public globals: GlobalsService) {
   }
@@ -71,30 +71,13 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   get styleForCard(): any {
-    const ret: any = {
-      backgroundColor: this.currentCard.colorBack ?? 'white',
-      color: this.currentCard.colorFore ?? 'black'
-    };
-    const bc: string[] = [];
-    const fc: string[] = [];
-    for (const label of this.currentCard.labels) {
-      const l = GLOBALS.cardConfig.labelData[label];
-      ret.l = l;
-      if (l != null) {
-        bc.push(l.back);
-        fc.push(l.fore);
-      }
+    if (GLOBALS.cardMode === 'edit' && this.editWithoutColors) {
+      return {
+        backgroundColor: 'white',
+        color: 'black'
+      };
     }
-    if (bc.length === 1) {
-      ret.backgroundColor = `#${bc[0]}`;
-    } else if (bc.length > 1) {
-      delete (ret.backgroundColor);
-      ret.background = `linear-gradient(${Utils.join(bc.map(c => `#${c}`), ',')})`;
-    }
-    if (fc.length > 0) {
-      ret.color = `#${fc[0]}`;
-    }
-    return ret;
+    return GLOBALS.styleForCard(this.currentCard);
   }
 
   get dataForEdit(): any {
@@ -114,6 +97,10 @@ export class CardComponent implements OnInit, OnDestroy {
       b: this.currentCard.colorBack ?? 'white',
       f: this.currentCard.colorFore ?? 'black'
     };
+    if (this.editWithoutColors) {
+      color.b = 'white';
+      color.f = 'black';
+    }
     return {
       '--mat-standard-button-toggle-text-color': color.f,
       '--mat-standard-button-toggle-background-color': color.b,
@@ -195,16 +182,7 @@ export class CardComponent implements OnInit, OnDestroy {
 
   clickEdit(evt: MouseEvent) {
     evt?.stopPropagation();
-    switch (this.cardFace) {
-      case 'front':
-      case 'back':
-        this.form.controls.edit.setValue((this.currentCard as any)?.[this.cardFace]);
-        break;
-    }
-    this.form.controls.cardFace.setValue(this.cardFace);
-    this.orgCard = this.currentCard.asJson;
-    GLOBALS.cardMode = 'edit';
-    this.activateEdit();
+    this.ms.showPopup(CardPopupComponent, 'card', {idx: this.cardIdx});
   }
 
   activateEdit(): void {
@@ -234,22 +212,6 @@ export class CardComponent implements OnInit, OnDestroy {
 
   assignLabel(value: string) {
     this.currentCard.labels.push(value);
-  }
-
-  cardText(cardClass: string, removeColors = false): SafeHtml {
-    let text = '???';
-    switch (cardClass) {
-      case 'front':
-        text = this.currentCard?.front;
-        break;
-      case 'back':
-        text = this.currentCard?.back;
-        break;
-    }
-    if (removeColors) {
-      text = (text ?? '').replace(/([^c]*)(color:[^;]*;)([^c]*)/g, '$1$3');
-    }
-    return this.sanitizer.bypassSecurityTrustHtml(text);
   }
 
   clickQuestion(evt: MouseEvent) {

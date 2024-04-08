@@ -1,0 +1,50 @@
+<mat-chip-listbox (change)="globals.onChangeLabels($event)" multiple>
+  @for (label of globals.cardConfig.labels; track label) {
+    <mat-chip-option [style]="globals.styleForChip(label)">
+      {{ label }}
+      <button matChipRemove (click)="globals.editLabel(null, label)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button matChipRemove (click)="globals.changeLabelColor(label, null)">
+        <mat-icon>palette</mat-icon>
+      </button>
+    </mat-chip-option>
+  }
+  <button (click)="clickColors($event)" mat-icon-button>
+    <mat-icon *ngIf="globals.cardConfig.showListColors">format_color_fill</mat-icon>
+    <mat-icon *ngIf="!globals.cardConfig.showListColors">format_color_reset</mat-icon>
+  </button>
+  <button (click)="clickFace($event)" mat-icon-button>
+    <mat-icon *ngIf="cardFace==='front'">question_mark</mat-icon>
+    <mat-icon *ngIf="cardFace==='back'">priority_high</mat-icon>
+  </button>
+</mat-chip-listbox>
+<div card-list>
+  <div scroll>
+    <ng-container *ngFor="let card of globals.cardList; let idx = index">
+      <button (click)="clickCard($event, card, idx)"
+              [class]="classForCard(card)"
+              [style]="styleForCard(card)"
+              mat-button>
+        <ng-container *ngIf="cardFace==='front'">
+          <div [innerHTML]="card[cardFace]"></div>
+        </ng-container>
+        <ng-container *ngIf="cardFace==='back'">
+          <div [innerHTML]="globals.cardText(card,'front', true)" small></div>
+          <div line></div>
+          <div [innerHTML]="card.back" main></div>
+        </ng-container>
+      </button>
+    </ng-container>
+  </div>
+</div>
+<button (click)="clickDefault()" defBtn mat-fab>
+  <mat-icon>restart_alt</mat-icon>
+</button>
+<button (click)="addCard()" *ngIf="globals.cardMode !== 'edit' && globals.filterCards == null" addBtn mat-fab>
+  <mat-icon>add</mat-icon>
+</button>
+<!-- app-card *ngIf="editCardIdx != null"
+          [cardIdx]="editCardIdx"
+          [style]="styleForCard(editCard)">
+</app-card -->

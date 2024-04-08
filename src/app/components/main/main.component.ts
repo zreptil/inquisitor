@@ -49,6 +49,9 @@ export class MainComponent {
       case 'welcome':
         this.ms.showPopup(WelcomeComponent, 'welcome', {});
         break;
+      default:
+        GLOBALS.currentPage = key;
+        break;
     }
   }
 
@@ -62,6 +65,14 @@ export class MainComponent {
   classForLanguage(item: LangData): string[] {
     const ret: string[] = ['language'];
     if (GLOBALS.language?.code === item.code) {
+      ret.push('current');
+    }
+    return ret;
+  }
+
+  classFor(key: string): string[] {
+    const ret: string[] = [];
+    if (GLOBALS.currentPage === key) {
       ret.push('current');
     }
     return ret;

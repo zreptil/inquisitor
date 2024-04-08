@@ -18,6 +18,7 @@ export class LabelData {
 export class CardConfig extends BaseData {
   labels: string[] = [];
   labelData: { [key: string]: LabelData } = {};
+  showListColors = true;
 
   override get asJson(): any {
     const lc: any = {};
@@ -26,7 +27,8 @@ export class CardConfig extends BaseData {
     }
     return {
       l: this.labels,
-      lc: lc
+      lc: lc,
+      slc: this.showListColors
     };
   }
 
@@ -53,5 +55,6 @@ export class CardConfig extends BaseData {
     for (const key of Object.keys(json.lc ?? {})) {
       this.labelData[key] = new LabelData(json.lc[key].b, json.lc[key].f);
     }
+    this.showListColors = json.slc ?? true;
   }
 }

@@ -3,7 +3,6 @@ import {CardData} from '@/_model/card-data';
 import {GLOBALS, GlobalsService} from '@/_services/globals.service';
 import {MessageService} from '@/_services/message.service';
 import {Utils} from '@/classes/utils';
-import {DialogResultButton} from '@/_model/dialog-data';
 import {MatChipListboxChange} from '@angular/material/chips';
 
 // https://3dtransforms.desandro.com/carousel
@@ -50,46 +49,8 @@ export class CardBoxComponent implements OnInit {
     this.currentCard.labels.push(...(value?.split(',') ?? []));
   }
 
-  get configLabels(): string[] {
-    return GLOBALS.cardConfig.labels;
-  }
-
-  styleForChip(label: string): any {
-    const color = {
-      b: 'white',
-      f: 'black'
-    };
-    if (GLOBALS.cardConfig.labelData[label] != null) {
-      color.b = '#' + GLOBALS.cardConfig.labelData[label].back;
-      color.f = '#' + GLOBALS.cardConfig.labelData[label].fore;
-    }
-    return {
-      '--mdc-chip-elevated-container-color': color.f,
-      '--mdc-chip-label-text-color': color.b,
-      '--mdc-chip-elevated-disabled-container-color': 'yellow',
-      '--mdc-chip-with-trailing-icon-trailing-icon-color': color.b,
-      '--mdc-chip-with-icon-selected-icon-color': color.b
-    };
-  }
-
   ngOnInit() {
     this.cardIdx = GLOBALS.cardList.length > 0 ? 0 : null;
-    this.initCards();
-  }
-
-  addCard() {
-    const card = new CardData();
-    card.labels.push('Standard');
-    if (GLOBALS.cardList.length === 0) {
-      card.front = $localize`What do you want to know?`;
-      card.back = $localize`Everything!`;
-    } else {
-      card.front = $localize`Question`;
-      card.back = $localize`Answer`;
-    }
-    GLOBALS.cardList.push(card);
-    this.cardIdx = GLOBALS.cardList.length - 1;
-    this.cardConfig.extractLabels(GLOBALS.cardList);
     this.initCards();
   }
 
@@ -133,18 +94,6 @@ export class CardBoxComponent implements OnInit {
     };
   }
 
-  clickDefault(): void {
-    this.ms.confirm($localize`Reset all Questions / Answers to default and loose everything you entered?`)
-      .subscribe(result => {
-        if (result?.btn === DialogResultButton.yes) {
-          GLOBALS.cardMode = 'view';
-          GLOBALS.loadSharedData(GLOBALS.defaultData);
-          this.cardIdx = 0;
-          this.initCards();
-        }
-      });
-  }
-
   @HostListener('document:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent): void {
     if (GLOBALS.cardMode !== 'edit') {
@@ -160,20 +109,12 @@ export class CardBoxComponent implements OnInit {
   }
 
   onChangeLabels(evt: MatChipListboxChange) {
-    GLOBALS.filterCards = Utils.isEmpty(evt.value) ? null : evt.value;
+    GLOBALS.onChangeLabels(evt);
     this.cardIdx = 0;
   }
 
   clickLabelEdit(evt: MouseEvent, label: string) {
     evt?.stopPropagation();
     GLOBALS.editLabel(null, label);
-  }
-
-  clickLabelColor(evt: MouseEvent, label: string) {
-    evt?.stopPropagation();
-    GLOBALS.changeLabelColor(label, {
-      back: this.currentCard.colorBack,
-      fore: this.currentCard.colorFore
-    });
   }
 }

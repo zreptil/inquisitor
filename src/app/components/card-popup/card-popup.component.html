@@ -1,0 +1,70 @@
+<div cdkDrag cdkDragBoundary=".cdk-overlay-container"
+     cdkDragRootElement=".dialog-box.card">
+  <div cdkDragHandle mat-dialog-title>
+    <h1 i18n>Card</h1>
+    <app-close-button [data]="closeData"></app-close-button>
+  </div>
+  <div mat-dialog-content>
+    <form [formGroup]="form">
+      <mat-button-toggle-group (change)="onCardFaceChange($event)"
+                               [formGroup]="form"
+                               formControlName="cardFace">
+        <mat-button-toggle value="front">
+          <mat-icon>question_mark</mat-icon>
+          <mat-label i18n>Question</mat-label>
+        </mat-button-toggle>
+        <mat-button-toggle value="back">
+          <mat-icon>priority_high</mat-icon>
+          <mat-label i18n>Answer</mat-label>
+        </mat-button-toggle>
+        <mat-button-toggle value="labels">
+          <mat-icon>label</mat-icon>
+          <mat-label i18n>Labels</mat-label>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+      <button (click)="showColorDialog()" mat-icon-button micro-button>
+        <mat-icon>palette</mat-icon>
+      </button>
+      <!-- button (click)="clickCancel($event)" mat-icon-button>
+        <mat-icon>close</mat-icon>
+      </button -->
+      <ng-container *ngIf="hasEditor">
+        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+        <ngx-editor [editor]="editor" [placeholder]="dataForEdit.p" formControlName="edit"></ngx-editor>
+      </ng-container>
+      <ng-container *ngIf="!hasEditor">
+        <mat-label [innerHTML]="currentCard.front"></mat-label>
+        <mat-chip-set>
+          @for (label of cardLabels; track label) {
+            <mat-chip-row (removed)="removeLabel(label)" [style]="styleForChip(label)">
+              {{ label }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          }
+        </mat-chip-set>
+        <div *ngIf="configLabels.length > 0">
+          <mat-label i18n>Available</mat-label>
+          <mat-chip-set>
+            @for (label of configLabels; track label) {
+              <mat-chip-row (click)="assignLabel(label)" [style]="styleForChip(label)">
+                {{ label }}
+              </mat-chip-row>
+            }
+            <mat-chip-row (click)="addLabel($event)" [style]="styleForChip(null)">
+              <mat-icon>add</mat-icon>
+            </mat-chip-row>
+          </mat-chip-set>
+        </div>
+      </ng-container>
+    </form>
+  </div>
+  <div align="end" mat-dialog-actions>
+    <button (click)="clickSave($event)" mat-button mat-dialog-close>
+      <mat-label i18n>Save</mat-label>
+      <mat-icon>save</mat-icon>
+    </button>
+
+  </div>
+</div>

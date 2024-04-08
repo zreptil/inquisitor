@@ -27,6 +27,8 @@ import {ColorPickerHslComponent} from '@/controls/color-picker/color-picker-hsl/
 import {CardBoxComponent} from '@/components/card-box/card-box.component';
 import {CardComponent} from '@/components/card/card.component';
 import {NgxEditorModule} from 'ngx-editor';
+import {CardListComponent} from '@/components/card-list/card-list.component';
+import {CardPopupComponent} from '@/components/card-popup/card-popup.component';
 
 @NgModule({
   declarations: [
@@ -47,8 +49,10 @@ import {NgxEditorModule} from 'ngx-editor';
     MainComponent,
     WelcomeComponent,
     ImpressumComponent,
+    CardListComponent,
     CardBoxComponent,
-    CardComponent
+    CardComponent,
+    CardPopupComponent
   ],
   imports: [
     BrowserModule,
