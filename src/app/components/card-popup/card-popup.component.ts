@@ -193,6 +193,7 @@ export class CardPopupComponent implements OnInit {
   }
 
   clickSave(evt: MouseEvent) {
+    evt.stopPropagation();
     if (this.currentCard != null) {
       switch (this.cardFace) {
         case 'front':
@@ -201,7 +202,16 @@ export class CardPopupComponent implements OnInit {
           break;
       }
     }
-    evt.stopPropagation();
     GLOBALS.saveSharedData();
+  }
+
+  clickDelete(evt: MouseEvent) {
+    evt.stopPropagation();
+    this.ms.confirm($localize`Really delete this card?`).subscribe(result => {
+      if (result?.btn === DialogResultButton.yes) {
+        GLOBALS.cardList.splice(this.cardIdx, 1);
+        GLOBALS.saveSharedData();
+      }
+    })
   }
 }

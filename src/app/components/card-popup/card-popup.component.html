@@ -61,10 +61,13 @@
     </form>
   </div>
   <div align="end" mat-dialog-actions>
+    <button (click)="clickDelete($event)" mat-button mat-dialog-close>
+      <mat-label i18n>Delete</mat-label>
+      <mat-icon>delete</mat-icon>
+    </button>
     <button (click)="clickSave($event)" mat-button mat-dialog-close>
       <mat-label i18n>Save</mat-label>
       <mat-icon>save</mat-icon>
     </button>
-
   </div>
 </div>

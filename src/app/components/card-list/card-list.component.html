@@ -18,9 +18,15 @@
     <mat-icon *ngIf="cardFace==='front'">question_mark</mat-icon>
     <mat-icon *ngIf="cardFace==='back'">priority_high</mat-icon>
   </button>
+  <button (click)="clickGridDec($event)" btnDec mat-mini-fab>
+    <mat-icon>format_indent_decrease</mat-icon>
+  </button>
+  <button (click)="clickGridInc($event)" btnInc mat-mini-fab>
+    <mat-icon>format_indent_increase</mat-icon>
+  </button>
 </mat-chip-listbox>
-<div card-list>
-  <div scroll>
+<div card-list class="grid">
+  <div [style]="classForScroll" scroll>
     <ng-container *ngFor="let card of globals.cardList; let idx = index">
       <button (click)="clickCard($event, card, idx)"
               [class]="classForCard(card)"
@@ -41,7 +47,7 @@
 <button (click)="clickDefault()" defBtn mat-fab>
   <mat-icon>restart_alt</mat-icon>
 </button>
-<button (click)="addCard()" *ngIf="globals.cardMode !== 'edit' && globals.filterCards == null" addBtn mat-fab>
+<button (click)="addCard()" *ngIf="globals.filterCards == null" addBtn mat-fab>
   <mat-icon>add</mat-icon>
 </button>
 <!-- app-card *ngIf="editCardIdx != null"

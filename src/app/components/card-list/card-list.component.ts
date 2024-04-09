@@ -19,6 +19,12 @@ export class CardListComponent {
               public ms: MessageService) {
   }
 
+  get classForScroll(): any {
+    const ret: any = {};
+    ret['--gridCols'] = `${GLOBALS.cardConfig.gridColumns}`;
+    return ret;
+  }
+
   clickLabelColor(evt: MouseEvent, label: string) {
     evt?.stopPropagation();
     GLOBALS.changeLabelColor(label, null);
@@ -86,5 +92,17 @@ export class CardListComponent {
     evt.stopPropagation();
     const faceList = ['front', 'back'];
     this.cardFace = faceList.find(face => face !== this.cardFace);
+  }
+
+  clickGridInc(evt: MouseEvent) {
+    evt.stopPropagation();
+    GLOBALS.cardConfig.gridColumns = Math.min(10, GLOBALS.cardConfig.gridColumns + 1);
+    GLOBALS.saveSharedData();
+  }
+
+  clickGridDec(evt: MouseEvent) {
+    evt.stopPropagation();
+    GLOBALS.cardConfig.gridColumns = Math.max(1, GLOBALS.cardConfig.gridColumns - 1);
+    GLOBALS.saveSharedData();
   }
 }

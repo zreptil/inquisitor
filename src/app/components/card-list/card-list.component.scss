@@ -2,6 +2,24 @@
   display: flex;
   flex-flow: column;
   padding: 0.5em;
+  width: 100%;
+
+  [card-list].grid {
+    flex: 1;
+    width: 100%;
+
+    [scroll] {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(var(--gridCols), 1fr);
+      width: 100%;
+      gap: 0.1em;
+
+      .card {
+        border-radius: 0.3em;
+      }
+    }
+  }
 
   [card-list] {
     display: flex;
@@ -41,6 +59,22 @@
         }
       }
     }
+  }
+
+  [btnDec], [btnInc] {
+    opacity: 0.2;
+  }
+
+  [btnDec]:hover, [btnInc]:hover {
+    opacity: 1;
+  }
+
+  [mat-fab] {
+    opacity: 0.3;
+  }
+
+  [mat-fab]:hover {
+    opacity: 1;
   }
 
   [addBtn] {
